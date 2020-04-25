@@ -14,7 +14,6 @@ import java.io.IOException;
  * JavaFX App
  */
 
-//Prova commit 2
 public class App extends Application {
 
     private double xOffset;

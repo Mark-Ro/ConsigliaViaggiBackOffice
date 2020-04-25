@@ -47,10 +47,8 @@ public class GestioneUtentiPage implements Initializable {
     
     @FXML private ComboBox comboBoxStato;
     @FXML private AnchorPane stageUtenti;
-    @FXML private ImageView gestioneRecensioniIcon;
-    @FXML private ImageView gestioneUtentiIcon;
-    @FXML private ImageView ratificaRecensioniIcon;
-    @FXML private ImageView profiloAdminIcon;
+    @FXML private ImageView gestioneRecensioniIcon,gestioneUtentiIcon,ratificaRecensioniIcon, profiloAdminIcon, ricercaIcon;
+    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText,profiloAdminText;
     @FXML private AnchorPane pnlGestioneUsers;
     @FXML private ImageView idIconClose;
     @FXML private Text idIconIconify;
@@ -65,6 +63,15 @@ public class GestioneUtentiPage implements Initializable {
 
 
     @FXML private void handleButtonCercaUtentiClicked(ActionEvent evt) {
+        doResearch();
+    }
+
+    @FXML private void handleSerachImageClicked(MouseEvent evt){
+        doResearch();
+    }
+
+    //fattorizzazione del codice per permettere di cercare un utente se viene premuto il bottone oppure l'icona di ricerca
+    public void doResearch(){
         gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
         listaUtenti = gestioneUtentiController.getListaUtentiTable();
         if (listaUtenti!=null && listaUtenti.size()>0) {
