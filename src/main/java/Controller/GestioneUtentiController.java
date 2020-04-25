@@ -3,6 +3,7 @@ package Controller;
 import DAO.AWSLambdaSettings;
 import DAO.UtenteDAO;
 import Entity.Utente;
+import GUI.GestioneUtentiPage;
 import GUI.UtenteTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,9 +13,15 @@ import java.util.Iterator;
 
 public class GestioneUtentiController {
 
+    private GestioneUtentiPage gestioneUtentiPage;
+
     private ArrayList<Utente> listaUtenti;
     private UtenteDAO utenteDAO = new UtenteDAO();
     private AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
+
+    public GestioneUtentiController(GestioneUtentiPage gestioneUtentiPage) {
+        this.gestioneUtentiPage = gestioneUtentiPage;
+    }
 
     public ArrayList<Utente> getListaUtenti() {
         return listaUtenti;
@@ -27,8 +34,9 @@ public class GestioneUtentiController {
 
     public ObservableList<UtenteTableView> getListaUtentiTable() {
         Utente utente;
-        ObservableList<UtenteTableView> listaUtentiTabella = FXCollections.observableArrayList();
+        ObservableList<UtenteTableView> listaUtentiTabella = null;
         if (listaUtenti!=null) {
+            listaUtentiTabella = FXCollections.observableArrayList();
             Iterator<Utente> iterator = listaUtenti.iterator();
             while (iterator.hasNext()) {
                 utente = iterator.next();
@@ -86,6 +94,8 @@ public class GestioneUtentiController {
             utenteDAO.saveModifiesIntoCognito(nickname, email);
             if (stato.equals("banned"))
                 utenteDAO.banUtenteCognito(nickname);
+            gestioneUtentiPage.showDialogInformation("Esito Modifiche","L'utente è stato modificato con successo!");
+            gestioneUtentiPage.updateTableViewAfterModifies();
         }
     }
 
@@ -93,6 +103,8 @@ public class GestioneUtentiController {
         if (awsLambdaSettings.checkInternetConnection()) {
             utenteDAO.deleteUserFromDatabase(nickname);
             utenteDAO.deleteUserFromCognito(nickname);
+            gestioneUtentiPage.showDialogInformation("Eliminazione utente","Utente eliminato con successo!");
+            gestioneUtentiPage.updateTableViewAfterDeletes();
         }
     }
 }

@@ -1,8 +1,6 @@
 package Controller;
 
 import GUI.LoginPage;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 
 public class LoginController {
     private LoginPage loginPage;
