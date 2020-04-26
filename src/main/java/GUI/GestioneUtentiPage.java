@@ -76,10 +76,9 @@ public class GestioneUtentiPage implements Initializable {
             System.out.println("Errore: " + e.getMessage());
             e.printStackTrace();
         }
-        Scene sc = new Scene(stackPane,400,300);
+        Scene sc = new Scene(stackPane);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(sc);
-        stage.setTitle("Sample Progress Bar");
         stage.show();
 
         new Thread(new Task<>() {
