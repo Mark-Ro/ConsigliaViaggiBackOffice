@@ -46,14 +46,6 @@ public class AWSLambdaSettings {
             System.out.println("Internet is not connected");
         }
 
-        if (result==false) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore Connessione Internet");
-            alert.setContentText("Connessione Internet non disponibile!");
-            alert.setHeaderText(null);
-            alert.showAndWait();
-        }
-
         return result;
     }
 }

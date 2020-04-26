@@ -7,6 +7,7 @@ import GUI.GestioneUtentiPage;
 import GUI.UtenteTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,11 +28,15 @@ public class GestioneUtentiController {
         return listaUtenti;
     }
 
-    public void queryListaUtentiFromDatabase(String nickname, String nome, String cognome, String email) {
+    public boolean queryListaUtentiFromDatabase(String nickname, String nome, String cognome, String email) {
+        boolean result = false;
         System.out.println("Entrato nella Query!");
-        if (awsLambdaSettings.checkInternetConnection())
-            listaUtenti = utenteDAO.getListaUtentiFromDatabase(nickname,nome,cognome,email);
+        if (awsLambdaSettings.checkInternetConnection()) {
+            listaUtenti = utenteDAO.getListaUtentiFromDatabase(nickname, nome, cognome, email);
+            result = true;
+        }
         System.out.println("Query finita!");
+        return result;
     }
 
     public ObservableList<UtenteTableView> getListaUtentiTable() {

@@ -77,9 +77,12 @@ public class GestioneUtentiPage implements Initializable {
         stage.show();
 
         new Thread(new Task<>() {
+
+            private boolean operationComplete = false;
+
             @Override
             protected Object call() throws Exception {
-                gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText());
+                operationComplete = gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText());
                 return null;
             }
 
@@ -87,31 +90,22 @@ public class GestioneUtentiPage implements Initializable {
             protected void succeeded() {
                 super.succeeded();
                 stage.close();
-                System.out.println("Finito!");
-                listaUtenti = gestioneUtentiController.getListaUtentiTable();
-                if (listaUtenti!=null && listaUtenti.size()>0) {
-                    columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nickname"));
-                    columnNome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nome"));
-                    columnCognome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Cognome"));
-                    columnEmail.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Email"));
-                    tableViewGestioneUtenti.setItems(listaUtenti);
+                if (operationComplete == true) {
+                    System.out.println("Finito!");
+                    listaUtenti = gestioneUtentiController.getListaUtentiTable();
+                    if (listaUtenti != null && listaUtenti.size() > 0) {
+                        columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nickname"));
+                        columnNome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nome"));
+                        columnCognome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Cognome"));
+                        columnEmail.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Email"));
+                        tableViewGestioneUtenti.setItems(listaUtenti);
+                    } else if (listaUtenti != null && listaUtenti.size() == 0)
+                        showDialogInformation("Risultato Ricerca", "La ricerca non ha prodotto risultati!");
                 }
-                else if (listaUtenti!=null && listaUtenti.size() == 0)
-                    showDialogInformation("Risultato Ricerca","La ricerca non ha prodotto risultati!");
+                else
+                    showDialogError("Errore di connessione","Connessione Internet non disponibile!");
             }
         }).start();
-
-        /*gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText());
-        listaUtenti = gestioneUtentiController.getListaUtentiTable();
-        if (listaUtenti!=null && listaUtenti.size()>0) {
-            columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nickname"));
-            columnNome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nome"));
-            columnCognome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Cognome"));
-            columnEmail.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Email"));
-            tableViewGestioneUtenti.setItems(listaUtenti);
-        }
-        else if (listaUtenti!=null && listaUtenti.size() == 0)
-            showDialogInformation("Risultato Ricerca","La ricerca non ha prodotto risultati!");*/
     }
 
     @FXML private void handleSelectedRow(MouseEvent evt){
