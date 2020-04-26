@@ -6,18 +6,15 @@
 package GUI;
 
 import java.io.IOException;
-import java.lang.invoke.CallSite;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import Controller.GestioneUtentiController;
 import Entity.Utente;
 import javafx.animation.FadeTransition;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,16 +23,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.skin.NestedTableColumnHeader;
-import javafx.scene.control.skin.TableColumnHeader;
-import javafx.scene.control.skin.TableHeaderRow;
-import javafx.scene.control.skin.TableViewSkin;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -61,7 +55,6 @@ public class GestioneUtentiPage implements Initializable {
     private GestioneUtentiController gestioneUtentiController = new GestioneUtentiController(this);
     private ObservableList<UtenteTableView> listaUtenti;
 
-
     @FXML private void handleButtonCercaUtentiClicked(ActionEvent evt) {
         doResearch();
     }
@@ -71,8 +64,44 @@ public class GestioneUtentiPage implements Initializable {
     }
 
 
-    private void doResearch(){
-        gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
+    private void doResearch() {
+
+        Stage stage = new Stage();
+        StackPane r = new StackPane();
+        ProgressBar p = new ProgressBar();
+        r.getChildren().add(p);
+        Scene sc = new Scene(r,400,300);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(sc);
+        stage.setTitle("Sample Progress Bar");
+        stage.show();
+
+        new Thread(new Task<>() {
+            @Override
+            protected Object call() throws Exception {
+                gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText());
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                stage.close();
+                System.out.println("Finito!");
+                listaUtenti = gestioneUtentiController.getListaUtentiTable();
+                if (listaUtenti!=null && listaUtenti.size()>0) {
+                    columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nickname"));
+                    columnNome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nome"));
+                    columnCognome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Cognome"));
+                    columnEmail.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Email"));
+                    tableViewGestioneUtenti.setItems(listaUtenti);
+                }
+                else if (listaUtenti!=null && listaUtenti.size() == 0)
+                    showDialogInformation("Risultato Ricerca","La ricerca non ha prodotto risultati!");
+            }
+        }).start();
+
+        /*gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText());
         listaUtenti = gestioneUtentiController.getListaUtentiTable();
         if (listaUtenti!=null && listaUtenti.size()>0) {
             columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nickname"));
@@ -82,7 +111,7 @@ public class GestioneUtentiPage implements Initializable {
             tableViewGestioneUtenti.setItems(listaUtenti);
         }
         else if (listaUtenti!=null && listaUtenti.size() == 0)
-            showDialogInformation("Risultato Ricerca","La ricerca non ha prodotto risultati!");
+            showDialogInformation("Risultato Ricerca","La ricerca non ha prodotto risultati!");*/
     }
 
     @FXML private void handleSelectedRow(MouseEvent evt){
@@ -254,5 +283,4 @@ public class GestioneUtentiPage implements Initializable {
         tableViewGestioneUtenti.setItems(listaUtenti);
         tableViewGestioneUtenti.refresh();
     }
-    
 }

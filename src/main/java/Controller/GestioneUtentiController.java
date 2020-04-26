@@ -28,8 +28,10 @@ public class GestioneUtentiController {
     }
 
     public void queryListaUtentiFromDatabase(String nickname, String nome, String cognome, String email) {
+        System.out.println("Entrato nella Query!");
         if (awsLambdaSettings.checkInternetConnection())
             listaUtenti = utenteDAO.getListaUtentiFromDatabase(nickname,nome,cognome,email);
+        System.out.println("Query finita!");
     }
 
     public ObservableList<UtenteTableView> getListaUtentiTable() {
