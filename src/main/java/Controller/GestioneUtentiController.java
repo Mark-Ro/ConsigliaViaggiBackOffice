@@ -99,10 +99,40 @@ public class GestioneUtentiController {
         boolean result = false;
         if (awsLambdaSettings.checkInternetConnection()) {
             utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
-            utenteDAO.saveModifiesIntoCognito(nickname, email);
-            if (stato.equals("banned"))
-                utenteDAO.banUtenteCognito(nickname);
+            if (wasUserBanned(nickname)) {
+                if (stato.equals("unbanned")) {
+                    utenteDAO.unbanUtenteCognito(nickname);
+                    utenteDAO.saveModifiesIntoCognito(nickname,email);
+                }
+                else {
+                    utenteDAO.unbanUtenteCognito(nickname);
+                    utenteDAO.saveModifiesIntoCognito(nickname,email);
+                    utenteDAO.banUtenteCognito(nickname);
+                }
+            }
+            else {
+                utenteDAO.saveModifiesIntoCognito(nickname, email);
+                if (stato.equals("banned"))
+                    utenteDAO.banUtenteCognito(nickname);
+            }
+
             result = true;
+        }
+        return result;
+    }
+
+    private boolean wasUserBanned(String nickname) {
+        boolean result = false;
+        int trovatoUtente = 0;
+        Iterator<Utente> iterator = listaUtenti.iterator();
+        Utente utente;
+        while (iterator.hasNext() && trovatoUtente == 0) {
+            utente = iterator.next();
+            if (utente.getNickname().equals(nickname)) {
+                trovatoUtente = 1;
+                if (utente.getStato().equals("banned"))
+                    result = true;
+            }
         }
         return result;
     }

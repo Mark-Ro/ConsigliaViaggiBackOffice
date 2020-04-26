@@ -74,6 +74,8 @@ public class GestioneUtentiPage implements Initializable {
     @FXML private void handleButtonSalvaModificheClicked(ActionEvent evt){
         if (textFieldNomeDati.getText().isEmpty() || textFieldCognomeDati.getText().isEmpty() || textFieldEmailDati.getText().isEmpty() || textFieldNomePubblico.getText().isEmpty())
             showDialogError("Errore Salva Modifiche","Riempire i campi!");
+        else if (!textFieldEmailDati.getText().contains("@") || !textFieldEmailDati.getText().contains("."))
+            showDialogError("Errore Salva Modifiche","Inserire una mail valida!");
         else
             updateUtenteAttributes();
     }
@@ -191,7 +193,7 @@ public class GestioneUtentiPage implements Initializable {
 
             @Override
             protected Object call() throws Exception {
-                operationComplete = gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText());
+                operationComplete = gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
                 return null;
             }
 
@@ -220,10 +222,12 @@ public class GestioneUtentiPage implements Initializable {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                System.out.println("Entrato in onSucceded");
                 closeLoadingDialog(stage);
                 if (operationComplete == true) {
                     showDialogInformation("Esito Modifiche", "L'utente è stato modificato con successo!");
                     updateTableViewAfterModifies();
+                    gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
                 }
                 else
                     showDialogError("Errore di connessione","Connessione Internet non disponibile!");

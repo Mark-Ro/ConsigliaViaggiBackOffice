@@ -3,9 +3,7 @@ package DAO;
 import Entity.Utente;
 import com.amazonaws.auth.*;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.cognitoidp.model.AdminDisableUserRequest;
-import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesRequest;
-import com.amazonaws.services.cognitoidp.model.AttributeType;
+import com.amazonaws.services.cognitoidp.model.*;
 import com.amazonaws.services.lambda.AWSLambda;
 import com.amazonaws.services.lambda.AWSLambdaClientBuilder;
 import com.amazonaws.services.lambda.model.InvocationType;
@@ -13,7 +11,7 @@ import com.amazonaws.services.lambda.model.InvokeResult;
 import com.amazonaws.services.lambda.model.InvokeRequest;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
-import com.amazonaws.services.cognitoidp.model.AdminDeleteUserRequest;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -176,6 +174,19 @@ public class UtenteDAO {
         req.setRequestCredentialsProvider(credentialsProvider);
         AWSCognitoIdentityProvider provider = AWSCognitoIdentityProviderClientBuilder.standard().withCredentials(DefaultAWSCredentialsProviderChain.getInstance()).withRegion(Regions.EU_CENTRAL_1).build();
         provider.adminDisableUser(req);
+    }
+
+    public void unbanUtenteCognito(String nickname) {
+        AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
+        AdminEnableUserRequest req = new AdminEnableUserRequest();
+        req.setUsername(nickname);
+        req.setUserPoolId(awsLambdaSettings.getUserPoolId());
+        AWSCredentials credentials = new BasicAWSCredentials(awsLambdaSettings.getAWS_ACCESS_KEY_ID(), awsLambdaSettings.getAWS_SECRET_ACCESS_KEY());
+        AWSCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(credentials);
+        credentialsProvider.getCredentials();
+        req.setRequestCredentialsProvider(credentialsProvider);
+        AWSCognitoIdentityProvider provider = AWSCognitoIdentityProviderClientBuilder.standard().withCredentials(DefaultAWSCredentialsProviderChain.getInstance()).withRegion(Regions.EU_CENTRAL_1).build();
+        provider.adminEnableUser(req);
     }
     
 }
