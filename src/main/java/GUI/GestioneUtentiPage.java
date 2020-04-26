@@ -63,56 +63,6 @@ public class GestioneUtentiPage implements Initializable {
         doResearch();
     }
 
-
-    private void doResearch() {
-
-        Stage stage = new Stage();
-        StackPane stackPane = null;
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("LoadingDialog.fxml"));
-        try {
-            stackPane = fxmlLoader.load();
-        } catch (IOException e) {
-            System.out.println("Errore: " + e.getMessage());
-            e.printStackTrace();
-        }
-        Scene sc = new Scene(stackPane);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(sc);
-        stage.show();
-
-        new Thread(new Task<>() {
-
-            private boolean operationComplete = false;
-
-            @Override
-            protected Object call() throws Exception {
-                operationComplete = gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText());
-                return null;
-            }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                stage.close();
-                if (operationComplete == true) {
-                    System.out.println("Finito!");
-                    listaUtenti = gestioneUtentiController.getListaUtentiTable();
-                    if (listaUtenti != null && listaUtenti.size() > 0) {
-                        columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nickname"));
-                        columnNome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nome"));
-                        columnCognome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Cognome"));
-                        columnEmail.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Email"));
-                        tableViewGestioneUtenti.setItems(listaUtenti);
-                    } else if (listaUtenti != null && listaUtenti.size() == 0)
-                        showDialogInformation("Risultato Ricerca", "La ricerca non ha prodotto risultati!");
-                }
-                else
-                    showDialogError("Errore di connessione","Connessione Internet non disponibile!");
-            }
-        }).start();
-    }
-
     @FXML private void handleSelectedRow(MouseEvent evt){
         if (evt.getClickCount()>0) {
             setTextFields();
@@ -121,27 +71,11 @@ public class GestioneUtentiPage implements Initializable {
         }
     }
 
-    private void setTextFields() {
-        if (tableViewGestioneUtenti.getSelectionModel().getSelectedItem() != null) {
-
-            UtenteTableView selectedUser = tableViewGestioneUtenti.getSelectionModel().getSelectedItem();
-            Utente utenteSelezionato = gestioneUtentiController.getUtenteFromListaUtentiByNickname(selectedUser.getNickname());
-            textFieldNicknameDati.setText(utenteSelezionato.getNickname());
-            textFieldNomeDati.setText(utenteSelezionato.getNome());
-            textFieldCognomeDati.setText(utenteSelezionato.getCognome());
-            textFieldEmailDati.setText(utenteSelezionato.getEmail());
-            textFieldNomePubblico.setText(utenteSelezionato.getNomePubblico());
-            comboBoxStato.setValue(utenteSelezionato.getStato());
-            textFieldNumeroRecensioniStatistiche.setText(String.valueOf(utenteSelezionato.getNumeroRecensioni()));
-            textFieldMediaValutazioniStatistiche.setText(String.valueOf(utenteSelezionato.getMedia()));
-        }
-    }
-
     @FXML private void handleButtonSalvaModificheClicked(ActionEvent evt){
         if (textFieldNomeDati.getText().isEmpty() || textFieldCognomeDati.getText().isEmpty() || textFieldEmailDati.getText().isEmpty() || textFieldNomePubblico.getText().isEmpty())
             showDialogError("Errore Salva Modifiche","Riempire i campi!");
         else
-            gestioneUtentiController.saveModifies(textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldNomePubblico.getText(),textFieldEmailDati.getText(),comboBoxStato.getSelectionModel().getSelectedItem().toString(),textFieldNicknameDati.getText());
+            updateUtenteAttributes();
     }
     
     @FXML private void handleButtonEliminaUtenteClicked(ActionEvent evt) {
@@ -151,7 +85,7 @@ public class GestioneUtentiPage implements Initializable {
         alert.setContentText("Sei sicuro di voler eliminare l'utente?? ");
         Optional<ButtonType> bottoneConfermaDialog = alert.showAndWait();
         if (bottoneConfermaDialog.get() == ButtonType.OK)
-            gestioneUtentiController.deleteUser(textFieldNicknameDati.getText());
+            deleteUser();
     }
     
     @FXML
@@ -232,7 +166,99 @@ public class GestioneUtentiPage implements Initializable {
         comboBoxStato.setItems(statiUtente);
     }
 
-    public void showDialogInformation(String title, String message) {
+    private void setTextFields() {
+        if (tableViewGestioneUtenti.getSelectionModel().getSelectedItem() != null) {
+
+            UtenteTableView selectedUser = tableViewGestioneUtenti.getSelectionModel().getSelectedItem();
+            Utente utenteSelezionato = gestioneUtentiController.getUtenteFromListaUtentiByNickname(selectedUser.getNickname());
+            textFieldNicknameDati.setText(utenteSelezionato.getNickname());
+            textFieldNomeDati.setText(utenteSelezionato.getNome());
+            textFieldCognomeDati.setText(utenteSelezionato.getCognome());
+            textFieldEmailDati.setText(utenteSelezionato.getEmail());
+            textFieldNomePubblico.setText(utenteSelezionato.getNomePubblico());
+            comboBoxStato.setValue(utenteSelezionato.getStato());
+            textFieldNumeroRecensioniStatistiche.setText(String.valueOf(utenteSelezionato.getNumeroRecensioni()));
+            textFieldMediaValutazioniStatistiche.setText(String.valueOf(utenteSelezionato.getMedia()));
+        }
+    }
+
+    private void doResearch() {
+        Stage stage = new Stage();
+        openLoadingDialog(stage);
+        new Thread(new Task<>() {
+
+            private boolean operationComplete = false;
+
+            @Override
+            protected Object call() throws Exception {
+                operationComplete = gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText());
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                closeLoadingDialog(stage);
+                updateTableView(operationComplete);
+            }
+        }).start();
+    }
+
+    private void updateUtenteAttributes() {
+        Stage stage = new Stage();
+        openLoadingDialog(stage);
+        new Thread(new Task<>() {
+
+            private boolean operationComplete = false;
+
+            @Override
+            protected Object call() throws Exception {
+                operationComplete = gestioneUtentiController.saveModifies(textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldNomePubblico.getText(),textFieldEmailDati.getText(),comboBoxStato.getSelectionModel().getSelectedItem().toString(),textFieldNicknameDati.getText());
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                closeLoadingDialog(stage);
+                if (operationComplete == true) {
+                    showDialogInformation("Esito Modifiche", "L'utente è stato modificato con successo!");
+                    updateTableViewAfterModifies();
+                }
+                else
+                    showDialogError("Errore di connessione","Connessione Internet non disponibile!");
+            }
+        }).start();
+    }
+
+    private void deleteUser() {
+        Stage stage = new Stage();
+        openLoadingDialog(stage);
+        new Thread(new Task<>() {
+
+            private boolean operationComplete = false;
+
+            @Override
+            protected Object call() throws Exception {
+                operationComplete = gestioneUtentiController.deleteUser(textFieldNicknameDati.getText());
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                closeLoadingDialog(stage);
+                if (operationComplete == true) {
+                    showDialogInformation("Eliminazione utente","Utente eliminato con successo!");
+                    updateTableViewAfterDeletes();
+                }
+                else
+                    showDialogError("Errore di connessione","Connessione Internet non disponibile!");
+            }
+        }).start();
+    }
+
+    private void showDialogInformation(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -240,7 +266,7 @@ public class GestioneUtentiPage implements Initializable {
         alert.showAndWait();
     }
 
-    public void showDialogError(String title, String message) {
+    private void showDialogError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setContentText(message);
@@ -263,7 +289,7 @@ public class GestioneUtentiPage implements Initializable {
         textFieldMediaValutazioniStatistiche.setText("");
     }
 
-    public void updateTableViewAfterDeletes() {
+    private void updateTableViewAfterDeletes() {
         listaUtenti = gestioneUtentiController.deleteUserFromTableViewList(textFieldNicknameDati.getText(),listaUtenti);
         columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView,String>("Nickname"));
         columnNome.setCellValueFactory(new PropertyValueFactory<UtenteTableView,String>("Nome"));
@@ -273,7 +299,7 @@ public class GestioneUtentiPage implements Initializable {
         resetTextViews();
     }
 
-    public void updateTableViewAfterModifies() {
+    private void updateTableViewAfterModifies() {
         listaUtenti = gestioneUtentiController.modifyUserInTableViewList(textFieldNicknameDati.getText(),textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldEmailDati.getText(),listaUtenti);
         columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView,String>("Nickname"));
         columnNome.setCellValueFactory(new PropertyValueFactory<UtenteTableView,String>("Nome"));
@@ -281,5 +307,41 @@ public class GestioneUtentiPage implements Initializable {
         columnEmail.setCellValueFactory(new PropertyValueFactory<UtenteTableView,String>("Email"));
         tableViewGestioneUtenti.setItems(listaUtenti);
         tableViewGestioneUtenti.refresh();
+    }
+
+    private void openLoadingDialog(Stage stage) {
+        StackPane stackPane = null;
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("LoadingDialog.fxml"));
+        try {
+            stackPane = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene sc = new Scene(stackPane);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(sc);
+        stage.show();
+    }
+
+    private void closeLoadingDialog(Stage stage) {
+        stage.close();
+    }
+
+    private void updateTableView(boolean operationComplete) {
+        if (operationComplete == true) {
+            System.out.println("Finito!");
+            listaUtenti = gestioneUtentiController.getListaUtentiTable();
+            if (listaUtenti != null && listaUtenti.size() > 0) {
+                columnNickname.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nickname"));
+                columnNome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Nome"));
+                columnCognome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Cognome"));
+                columnEmail.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Email"));
+                tableViewGestioneUtenti.setItems(listaUtenti);
+            } else if (listaUtenti != null && listaUtenti.size() == 0)
+                showDialogInformation("Risultato Ricerca", "La ricerca non ha prodotto risultati!");
+        }
+        else
+            showDialogError("Errore di connessione","Connessione Internet non disponibile!");
     }
 }

@@ -95,23 +95,25 @@ public class GestioneUtentiController {
         return listaUtenti;
     }
 
-    public void saveModifies(String nome, String cognome, String nomePubblico, String email, String stato, String nickname) {
+    public boolean saveModifies(String nome, String cognome, String nomePubblico, String email, String stato, String nickname) {
+        boolean result = false;
         if (awsLambdaSettings.checkInternetConnection()) {
             utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
             utenteDAO.saveModifiesIntoCognito(nickname, email);
             if (stato.equals("banned"))
                 utenteDAO.banUtenteCognito(nickname);
-            gestioneUtentiPage.showDialogInformation("Esito Modifiche","L'utente è stato modificato con successo!");
-            gestioneUtentiPage.updateTableViewAfterModifies();
+            result = true;
         }
+        return result;
     }
 
-    public void deleteUser(String nickname) {
+    public boolean deleteUser(String nickname) {
+        boolean result = false;
         if (awsLambdaSettings.checkInternetConnection()) {
             utenteDAO.deleteUserFromDatabase(nickname);
             utenteDAO.deleteUserFromCognito(nickname);
-            gestioneUtentiPage.showDialogInformation("Eliminazione utente","Utente eliminato con successo!");
-            gestioneUtentiPage.updateTableViewAfterDeletes();
+            result = true;
         }
+        return result;
     }
 }
