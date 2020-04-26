@@ -67,10 +67,16 @@ public class GestioneUtentiPage implements Initializable {
     private void doResearch() {
 
         Stage stage = new Stage();
-        StackPane r = new StackPane();
-        ProgressBar p = new ProgressBar();
-        r.getChildren().add(p);
-        Scene sc = new Scene(r,400,300);
+        StackPane stackPane = null;
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("LoadingDialog.fxml"));
+        try {
+            stackPane = fxmlLoader.load();
+        } catch (IOException e) {
+            System.out.println("Errore: " + e.getMessage());
+            e.printStackTrace();
+        }
+        Scene sc = new Scene(stackPane,400,300);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(sc);
         stage.setTitle("Sample Progress Bar");
