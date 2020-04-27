@@ -39,8 +39,7 @@ public class RatificaRecensioniPage implements Initializable {
     @FXML private AnchorPane pnlRatificaRec;
     @FXML private ImageView idIconClose;
     @FXML private Text idIconIconify;
-    @FXML private Button idBtnRifiutaRecensione;
-    @FXML private Button idBtnAccettaRecensione;
+    @FXML private Button idBtnRifiutaRecensione,idBtnAccettaRecensione, idBtnVisualizzaRecensioni;
 
 
     @FXML private void handleBtnRifiutaRecensioneClicked(ActionEvent evt){
