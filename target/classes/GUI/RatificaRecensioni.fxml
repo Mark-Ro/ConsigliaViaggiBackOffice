@@ -8,17 +8,17 @@
 
 <AnchorPane id="AnchorPane" fx:id="stageRatifica" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.RatificaRecensioniPage">
    <children>
-      <TextField editable="false" layoutX="269.0" layoutY="160.0" prefHeight="26.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;">
+      <TextField disable="true" editable="false" layoutX="269.0" layoutY="295.0" prefHeight="26.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font></TextField>
-      <TextArea editable="false" layoutX="269.0" layoutY="261.0" prefHeight="293.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;" />
-      <Text layoutX="269.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname autore">
+      <TextArea disable="true" editable="false" layoutX="269.0" layoutY="385.0" prefHeight="226.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;" />
+      <Text layoutX="270.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname autore">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="264.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recensione">
+      <Text layoutX="269.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recensione">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>
@@ -104,25 +104,30 @@
             <Font name="Arial" size="40.0" />
          </font>
       </Text>
-      <Button fx:id="idBtnRifiutaRecensione" layoutX="264.0" layoutY="632.0" mnemonicParsing="false" onAction="#handleBtnRifiutaRecensioneClicked" prefHeight="46.0" prefWidth="148.0" style="-fx-background-radius: 20; -fx-background-color: DD5448;" text="Rifiuta Recensione" textFill="WHITE">
+      <Button fx:id="idBtnRifiutaRecensione" disable="true" layoutX="264.0" layoutY="668.0" mnemonicParsing="false" onAction="#handleBtnRifiutaRecensioneClicked" prefHeight="46.0" prefWidth="148.0" style="-fx-background-radius: 20; -fx-background-color: DD5448;" text="Rifiuta Recensione" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="idBtnAccettaRecensione" layoutX="464.0" layoutY="632.0" mnemonicParsing="false" onAction="#handleBtnAccettaRecensioneClicked" prefHeight="46.0" prefWidth="148.0" style="-fx-background-radius: 20; -fx-background-color: #086485;" text="Accetta Recensione" textFill="WHITE">
+      <Button fx:id="idBtnAccettaRecensione" disable="true" layoutX="464.0" layoutY="668.0" mnemonicParsing="false" onAction="#handleBtnAccettaRecensioneClicked" prefHeight="46.0" prefWidth="148.0" style="-fx-background-radius: 20; -fx-background-color: #086485;" text="Accetta Recensione" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <TextField editable="false" layoutX="264.0" layoutY="74.0" prefHeight="26.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;">
+      <TextField disable="true" editable="false" layoutX="264.0" layoutY="206.0" prefHeight="26.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>
       </TextField>
-      <Text layoutX="264.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome Struttura">
+      <Text layoutX="268.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome Struttura">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>
       </Text>
+      <Button fx:id="idBtnVisualizzaRecensioni" layoutX="308.0" layoutY="67.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="265.0" style="-fx-background-radius: 20; -fx-background-color: #086485;" text="Visualizza recensioni da accettare" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
