@@ -8,11 +8,11 @@
 
 <AnchorPane id="AnchorPane" fx:id="stageRatifica" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.RatificaRecensioniPage">
    <children>
-      <TextField fx:id="textFieldNicknameRatifica" disable="true" editable="false" layoutX="269.0" layoutY="295.0" prefHeight="26.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;">
+      <TextField fx:id="textFieldNicknameRatifica" disable="true" editable="false" layoutX="269.0" layoutY="295.0" prefHeight="26.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50; -fx-opacity: 1.0;">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font></TextField>
-      <TextArea fx:id="textAreaTestoRecensioneRatifica" disable="true" editable="false" layoutX="269.0" layoutY="385.0" prefHeight="226.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;" />
+      <TextArea fx:id="textAreaTestoRecensioneRatifica" disable="true" editable="false" layoutX="269.0" layoutY="385.0" prefHeight="226.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-opacity: 1.0; -fx-font-size: 20;" wrapText="true" />
       <Text layoutX="270.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname autore">
          <font>
             <Font name="Segoe UI" size="18.0" />
@@ -114,7 +114,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="textFieldNomeStrutturaRatifica" disable="true" editable="false" layoutX="264.0" layoutY="206.0" prefHeight="26.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50;">
+      <TextField fx:id="textFieldNomeStrutturaRatifica" disable="true" editable="false" layoutX="264.0" layoutY="206.0" prefHeight="26.0" prefWidth="343.0" style="-fx-background-color: CFE3F0; -fx-background-radius: 50; -fx-opacity: 1.0;">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>

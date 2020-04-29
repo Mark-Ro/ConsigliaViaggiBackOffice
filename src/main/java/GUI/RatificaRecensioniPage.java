@@ -81,6 +81,7 @@ public class RatificaRecensioniPage implements Initializable {
         if (bottoneConfermaDialog.get() == ButtonType.OK) {
             idBtnAccettaRecensioneRatifica.setDisable(true);
             idBtnRifiutaRecensioneRatifica.setDisable(true);
+            textAreaTestoRecensioneRatifica.setDisable(true);
             deleteReview();
         }
     }
@@ -106,6 +107,7 @@ public class RatificaRecensioniPage implements Initializable {
             setTextFields();
             idBtnAccettaRecensioneRatifica.setDisable(false);
             idBtnRifiutaRecensioneRatifica.setDisable(false);
+            textAreaTestoRecensioneRatifica.setDisable(false);
         }
     }
 
