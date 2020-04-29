@@ -1,5 +1,6 @@
 package Controller;
 
+import Cognito.GestioneUtentiCognito;
 import DAO.AWSLambdaSettings;
 import DAO.UtenteDAO;
 import Entity.Utente;
@@ -14,15 +15,10 @@ import java.util.Iterator;
 
 public class GestioneUtentiController {
 
-    private GestioneUtentiPage gestioneUtentiPage;
-
     private ArrayList<Utente> listaUtenti;
     private UtenteDAO utenteDAO = new UtenteDAO();
+    private GestioneUtentiCognito gestioneUtentiCognito = new GestioneUtentiCognito();
     private AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
-
-    public GestioneUtentiController(GestioneUtentiPage gestioneUtentiPage) {
-        this.gestioneUtentiPage = gestioneUtentiPage;
-    }
 
     public ArrayList<Utente> getListaUtenti() {
         return listaUtenti;
@@ -101,19 +97,19 @@ public class GestioneUtentiController {
             utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
             if (wasUserBanned(nickname)) {
                 if (stato.equals("unbanned")) {
-                    utenteDAO.unbanUtenteCognito(nickname);
-                    utenteDAO.saveModifiesIntoCognito(nickname,email);
+                    gestioneUtentiCognito.unbanUtenteCognito(nickname);
+                    gestioneUtentiCognito.saveModifiesIntoCognito(nickname,email);
                 }
                 else {
-                    utenteDAO.unbanUtenteCognito(nickname);
-                    utenteDAO.saveModifiesIntoCognito(nickname,email);
-                    utenteDAO.banUtenteCognito(nickname);
+                    gestioneUtentiCognito.unbanUtenteCognito(nickname);
+                    gestioneUtentiCognito.saveModifiesIntoCognito(nickname,email);
+                    gestioneUtentiCognito.banUtenteCognito(nickname);
                 }
             }
             else {
-                utenteDAO.saveModifiesIntoCognito(nickname, email);
+                gestioneUtentiCognito.saveModifiesIntoCognito(nickname, email);
                 if (stato.equals("banned"))
-                    utenteDAO.banUtenteCognito(nickname);
+                    gestioneUtentiCognito.banUtenteCognito(nickname);
             }
 
             result = true;
@@ -141,7 +137,7 @@ public class GestioneUtentiController {
         boolean result = false;
         if (awsLambdaSettings.checkInternetConnection()) {
             utenteDAO.deleteUserFromDatabase(nickname);
-            utenteDAO.deleteUserFromCognito(nickname);
+            gestioneUtentiCognito.deleteUserFromCognito(nickname);
             result = true;
         }
         return result;

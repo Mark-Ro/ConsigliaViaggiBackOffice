@@ -52,14 +52,14 @@ public class GestioneUtentiPage implements Initializable {
     @FXML private TableView<UtenteTableView> tableViewGestioneUtenti;
     @FXML private TableColumn<UtenteTableView, String> columnNickname,columnNome,columnCognome,columnEmail;
 
-    private GestioneUtentiController gestioneUtentiController = new GestioneUtentiController(this);
+    private GestioneUtentiController gestioneUtentiController = new GestioneUtentiController();
     private ObservableList<UtenteTableView> listaUtenti;
 
     @FXML private void handleButtonCercaUtentiClicked(ActionEvent evt) {
         doResearch();
     }
 
-    @FXML private void handleSerachImageClicked(MouseEvent evt){
+    @FXML private void handleSearchImageClicked(MouseEvent evt){
         doResearch();
     }
 

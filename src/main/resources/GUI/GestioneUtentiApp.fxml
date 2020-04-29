@@ -27,7 +27,7 @@
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </Button>
-            <ImageView fx:id="ricercaIcon" fitHeight="23.0" fitWidth="23.0" layoutX="260.0" layoutY="148.0" onMouseClicked="#handleSerachImageClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="ricercaIcon" fitHeight="23.0" fitWidth="23.0" layoutX="260.0" layoutY="148.0" onMouseClicked="#handleSearchImageClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/SearchIcon.png" />
                </image>
