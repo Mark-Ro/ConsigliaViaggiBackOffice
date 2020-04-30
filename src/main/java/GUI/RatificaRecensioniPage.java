@@ -88,12 +88,7 @@ public class RatificaRecensioniPage implements Initializable {
 
     @FXML
     private void handleBtnAccettaRecensioneClicked(ActionEvent evt) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Accetta Recensione");
-        alert.setHeaderText("Accetta Recensione");
-        alert.setContentText("La recensione è stata pubblicata ");
-        alert.showAndWait();
-
+        acceptNewReview();
     }
 
     @FXML
@@ -229,7 +224,7 @@ public class RatificaRecensioniPage implements Initializable {
     private void setTextFields() {
         if (tableViewRatifica.getSelectionModel().getSelectedItem() != null) {
 
-            Recensione reviewSelected = ratificaRecensioniController.getRecensioneFromListaByIndirizzo(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo());
+            Recensione reviewSelected = ratificaRecensioniController.getRecensioneFromListaByIndirizzoAndNickname(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),tableViewRatifica.getSelectionModel().getSelectedItem().getNickname());
             textFieldNomeStrutturaRatifica.setText(reviewSelected.getNomeStruttura());
             textFieldNicknameRatifica.setText(reviewSelected.getNickname());
             textAreaTestoRecensioneRatifica.setText(reviewSelected.getTestoRecensione());
@@ -279,7 +274,7 @@ public class RatificaRecensioniPage implements Initializable {
 
     private void updateTableViewAfterDeletes() {
 
-        listaRecensioni = ratificaRecensioniController.deleteReviewFromTableViewList(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),listaRecensioni);
+        listaRecensioni = ratificaRecensioniController.deleteReviewFromTableViewList(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),tableViewRatifica.getSelectionModel().getSelectedItem().getNickname(),listaRecensioni);
         columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("NomeStruttura"));
         columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Nickname"));
         columnIndirizzo.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Indirizzo"));
@@ -297,7 +292,7 @@ public class RatificaRecensioniPage implements Initializable {
 
             @Override
             protected Object call() throws Exception {
-                operationComplete = ratificaRecensioniController.deleteReview(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo());
+                operationComplete = ratificaRecensioniController.deleteReview(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),tableViewRatifica.getSelectionModel().getSelectedItem().getNickname());
                 return null;
             }
 
@@ -310,6 +305,45 @@ public class RatificaRecensioniPage implements Initializable {
                     updateTableViewAfterDeletes();
                 } else
                     showDialogError("Errore di connessione", "Connessione Internet non disponibile!");
+            }
+        }).start();
+    }
+
+    private void updateTableViewAfterModifies() {
+        listaRecensioni = ratificaRecensioniController.deleteReviewFromTableViewList(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),tableViewRatifica.getSelectionModel().getSelectedItem().getNickname(),listaRecensioni);
+        columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("NomeStruttura"));
+        columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Nickname"));
+        columnIndirizzo.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Indirizzo"));
+        columnCitta.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Citta"));
+        tableViewRatifica.setItems(listaRecensioni);
+        tableViewRatifica.refresh();
+    }
+
+    private void acceptNewReview() {
+        Stage stage = new Stage();
+        openLoadingDialog(stage);
+        new Thread(new Task<>() {
+
+            private boolean operationComplete = false;
+
+            @Override
+            protected Object call() throws Exception {
+                operationComplete = ratificaRecensioniController.acceptReview(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),tableViewRatifica.getSelectionModel().getSelectedItem().getNickname());
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                System.out.println("Entrato in onSucceded");
+                closeLoadingDialog(stage);
+                if (operationComplete == true) {
+                    showDialogInformation("Esito Ratifica", "La recensione è stata accettata!");
+                    updateTableViewAfterModifies();
+                    resetTextViews();
+                }
+                else
+                    showDialogError("Errore di connessione","Connessione Internet non disponibile!");
             }
         }).start();
     }

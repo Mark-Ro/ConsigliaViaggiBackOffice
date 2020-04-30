@@ -95,4 +95,16 @@ public class RecensioneDAO {
         System.out.println(resultJSON);
     }
 
+    public void acceptReviewDatabase(String idRecensione) {
+        String functionName = "updateRecensioneBackOffice";
+        AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
+        AWSCredentials credentials = new BasicAWSCredentials(awsLambdaSettings.getAWS_ACCESS_KEY_ID(), awsLambdaSettings.getAWS_SECRET_ACCESS_KEY());
+        InvokeRequest lmbRequest = new InvokeRequest().withFunctionName(functionName).withPayload("{\n" + " \"idRecensione\": \"" + idRecensione + "\"\n}");
+        lmbRequest.setInvocationType(InvocationType.RequestResponse);
+        AWSLambda lambda = AWSLambdaClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        InvokeResult lmbResult = lambda.invoke(lmbRequest);
+        String resultJSON = new String(lmbResult.getPayload().array(), Charset.forName("UTF-8"));
+        System.out.println(resultJSON);
+    }
+
 }
