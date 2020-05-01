@@ -83,12 +83,18 @@ public class RatificaRecensioniPage implements Initializable {
             idBtnRifiutaRecensioneRatifica.setDisable(true);
             textAreaTestoRecensioneRatifica.setDisable(true);
             deleteReview();
+            idBtnAccettaRecensioneRatifica.setDisable(true);
+            idBtnRifiutaRecensioneRatifica.setDisable(true);
+            textAreaTestoRecensioneRatifica.setDisable(true);
         }
     }
 
     @FXML
     private void handleBtnAccettaRecensioneClicked(ActionEvent evt) {
         acceptNewReview();
+        idBtnAccettaRecensioneRatifica.setDisable(true);
+        idBtnRifiutaRecensioneRatifica.setDisable(true);
+        textAreaTestoRecensioneRatifica.setDisable(true);
     }
 
     @FXML
