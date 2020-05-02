@@ -8,7 +8,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="stageUtenti" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GestioneUtentiPage">
    <children>
-      <TableView fx:id="tableViewGestioneUtenti" editable="true" layoutX="720.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleSelectedRow" prefHeight="715.0" prefWidth="615.0" style="-fx-background-color: #DAEFF7; -fx-background-radius: 50; -fx-selection-bar: DD5448;">
+      <TableView fx:id="tableViewGestioneUtenti" editable="true" focusTraversable="false" layoutX="720.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleSelectedRow" prefHeight="715.0" prefWidth="615.0" style="-fx-background-color: #DAEFF7; -fx-background-radius: 50; -fx-selection-bar: DD5448;">
          <columns>
             <TableColumn fx:id="columnNickname" prefWidth="120.0" resizable="true" style="-fx-font-size: 18;" text="Nickname" />
             <TableColumn fx:id="columnEmail" prefWidth="252.80001220703127" resizable="true" style="-fx-font-size: 18;" text="Email" />
