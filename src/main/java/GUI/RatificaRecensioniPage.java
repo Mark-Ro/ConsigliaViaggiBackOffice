@@ -103,7 +103,7 @@ public class RatificaRecensioniPage implements Initializable {
 
     @FXML
     private void handleSelectedRowRatifica(MouseEvent evt) {
-        if (evt.getClickCount() > 0) {
+        if (evt.getClickCount() > 0 && tableViewRatifica.getSelectionModel().getSelectedItem() != null) {
             setTextFields();
             idBtnAccettaRecensioneRatifica.setDisable(false);
             idBtnRifiutaRecensioneRatifica.setDisable(false);

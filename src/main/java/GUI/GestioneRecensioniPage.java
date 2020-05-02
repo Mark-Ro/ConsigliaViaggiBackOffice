@@ -97,7 +97,7 @@ public class GestioneRecensioniPage implements Initializable {
 
     @FXML
     private void handleSelectedRowGestioneRecensioni(MouseEvent evt) {
-        if (evt.getClickCount() > 0) {
+        if (evt.getClickCount() > 0 && tableViewGestioneRecensioni.getSelectionModel().getSelectedItem() != null) {
             setTextFields();
             idBtnEliminaRecensione.setDisable(false);
         }

@@ -66,7 +66,7 @@ public class GestioneUtentiPage implements Initializable {
     }
 
     @FXML private void handleSelectedRow(MouseEvent evt){
-        if (evt.getClickCount()>0) {
+        if (evt.getClickCount()>0 && tableViewGestioneUtenti.getSelectionModel().getSelectedItem() != null) {
             setTextFields();
             idBtnSalvaModifiche.setDisable(false);
             idBtnEliminaUtente.setDisable(false);
