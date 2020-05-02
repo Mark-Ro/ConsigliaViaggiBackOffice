@@ -30,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -322,6 +323,7 @@ public class GestioneUtentiPage implements Initializable {
     }
 
     private void openLoadingDialog(Stage stage) {
+        stage.initModality(Modality.APPLICATION_MODAL);
         StackPane stackPane = null;
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("LoadingDialog.fxml"));
