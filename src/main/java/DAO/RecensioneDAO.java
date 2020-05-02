@@ -24,12 +24,44 @@ public class RecensioneDAO {
         return listaRecensioni;
     }
 
+    public ArrayList<Recensione> getListaRecensioniForGestioneFromDatabase(String nomeStruttura, String nickname, String citta, String indirizzo) {
+        if (nomeStruttura.isEmpty() || nomeStruttura.isBlank())
+            nomeStruttura="null";
+
+        if (nickname.isEmpty() || nickname.isBlank())
+            nickname="null";
+
+        if (citta.isEmpty() || citta.isBlank())
+            citta="null";
+
+        if (indirizzo.isEmpty() || indirizzo.isBlank())
+            indirizzo="null";
+
+        String resultJSON = doQueryGestioneRecensione(nomeStruttura,nickname,citta,indirizzo);
+        ArrayList<Recensione> listaRecensioni = analizzaQuery(resultJSON);
+        return listaRecensioni;
+    }
+
     private String doQueryRatifica() {
         String functionName = "queryRecensioniBackOffice";
 
         AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
         AWSCredentials credentials = new BasicAWSCredentials(awsLambdaSettings.getAWS_ACCESS_KEY_ID(), awsLambdaSettings.getAWS_SECRET_ACCESS_KEY());
         InvokeRequest lmbRequest = new InvokeRequest().withFunctionName(functionName).withPayload("{\n" + "\"table\": \"recensioni\"\n}");
+        lmbRequest.setInvocationType(InvocationType.RequestResponse);
+        AWSLambda lambda = AWSLambdaClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        InvokeResult lmbResult = lambda.invoke(lmbRequest);
+        String resultJSON = new String(lmbResult.getPayload().array(), Charset.forName("UTF-8"));
+        System.out.println(resultJSON);
+        return resultJSON;
+    }
+
+    private String doQueryGestioneRecensione(String nomeStruttura, String nickname, String citta, String indirizzo) {
+        String functionName = "queryGestioneRecensioniBackOffice";
+
+        AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
+        AWSCredentials credentials = new BasicAWSCredentials(awsLambdaSettings.getAWS_ACCESS_KEY_ID(), awsLambdaSettings.getAWS_SECRET_ACCESS_KEY());
+        InvokeRequest lmbRequest = new InvokeRequest().withFunctionName(functionName).withPayload("{\n" + " \"nomeStruttura\": \"" + nomeStruttura + "\",\"nickname\": \""+nickname+"\",\"citta\": \""+citta+"\",\"indirizzo\": \""+indirizzo+"\"\n }");
         lmbRequest.setInvocationType(InvocationType.RequestResponse);
         AWSLambda lambda = AWSLambdaClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
         InvokeResult lmbResult = lambda.invoke(lmbRequest);
@@ -106,5 +138,7 @@ public class RecensioneDAO {
         String resultJSON = new String(lmbResult.getPayload().array(), Charset.forName("UTF-8"));
         System.out.println(resultJSON);
     }
+
+
 
 }

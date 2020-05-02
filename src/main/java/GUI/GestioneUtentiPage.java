@@ -24,6 +24,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -69,6 +71,12 @@ public class GestioneUtentiPage implements Initializable {
             idBtnSalvaModifiche.setDisable(false);
             idBtnEliminaUtente.setDisable(false);
         }
+    }
+
+    @FXML
+    private void handleEnterKeyPressed(KeyEvent evt){
+        if(evt.getCode() == KeyCode.ENTER)
+            btnCercaGestioneUtenti.fire();
     }
 
     @FXML private void handleButtonSalvaModificheClicked(ActionEvent evt){
@@ -342,8 +350,10 @@ public class GestioneUtentiPage implements Initializable {
                 columnCognome.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Cognome"));
                 columnEmail.setCellValueFactory(new PropertyValueFactory<UtenteTableView, String>("Email"));
                 tableViewGestioneUtenti.setItems(listaUtenti);
-            } else if (listaUtenti != null && listaUtenti.size() == 0)
+            } else if (listaUtenti != null && listaUtenti.size() == 0) {
                 showDialogInformation("Risultato Ricerca", "La ricerca non ha prodotto risultati!");
+                tableViewGestioneUtenti.setItems(null);
+            }
         }
         else
             showDialogError("Errore di connessione","Connessione Internet non disponibile!");

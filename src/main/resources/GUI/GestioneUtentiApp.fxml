@@ -16,12 +16,12 @@
             <TableColumn fx:id="columnCognome" prefWidth="119.99997558593748" resizable="true" style="-fx-font-size: 18;" text="Cognome" />
          </columns>
       </TableView>
-      <AnchorPane layoutX="218.0" layoutY="6.0" prefHeight="198.0" prefWidth="458.0" style="-fx-background-radius: 20; -fx-background-color: #70ABD2;">
+      <AnchorPane layoutX="218.0" layoutY="11.0" prefHeight="198.0" prefWidth="458.0" style="-fx-background-radius: 20; -fx-background-color: #70ABD2;">
          <children>
-            <TextField fx:id="textFieldNicknameRicerca" layoutX="14.0" layoutY="43.0" prefHeight="26.0" prefWidth="180.0" promptText="Nickname" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
-            <TextField fx:id="textFieldCognomeRicerca" layoutX="14.0" layoutY="92.0" prefHeight="26.0" prefWidth="180.0" promptText="Cognome" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
-            <TextField fx:id="textFieldNomeRicerca" layoutX="264.0" layoutY="43.0" prefHeight="26.0" prefWidth="180.0" promptText="Nome" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
-            <TextField fx:id="textFieldEmailRicerca" layoutX="264.0" layoutY="92.0" prefHeight="26.0" prefWidth="180.0" promptText="Email" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
+            <TextField fx:id="textFieldNicknameRicerca" layoutX="14.0" layoutY="43.0" onKeyPressed="#handleEnterKeyPressed" prefHeight="26.0" prefWidth="180.0" promptText="Nickname" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
+            <TextField fx:id="textFieldCognomeRicerca" layoutX="14.0" layoutY="92.0" onKeyPressed="#handleEnterKeyPressed" prefHeight="26.0" prefWidth="180.0" promptText="Cognome" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
+            <TextField fx:id="textFieldNomeRicerca" layoutX="264.0" layoutY="43.0" onKeyPressed="#handleEnterKeyPressed" prefHeight="26.0" prefWidth="180.0" promptText="Nome" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
+            <TextField fx:id="textFieldEmailRicerca" layoutX="264.0" layoutY="92.0" onKeyPressed="#handleEnterKeyPressed" prefHeight="26.0" prefWidth="180.0" promptText="Email" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
             <Button fx:id="btnCercaGestioneUtenti" layoutX="155.0" layoutY="141.0" mnemonicParsing="false" onAction="#handleButtonCercaUtentiClicked" prefHeight="34.0" prefWidth="148.0" style="-fx-background-radius: 20; -fx-background-color: #086485;" text="Cerca" textFill="WHITE">
                <font>
                   <Font name="Segoe UI" size="14.0" />

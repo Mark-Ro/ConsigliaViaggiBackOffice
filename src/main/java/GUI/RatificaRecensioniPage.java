@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 
 import Controller.RatificaRecensioniController;
 import Entity.Recensione;
-import Entity.Utente;
 import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -59,15 +58,15 @@ public class RatificaRecensioniPage implements Initializable {
     @FXML
     private Button idBtnRifiutaRecensioneRatifica, idBtnAccettaRecensioneRatifica, idBtnVisualizzaRecensioniRatifica;
     @FXML
-    private TableView<RecensioneTableViewRatifica> tableViewRatifica;
+    private TableView<RecensioneTableView> tableViewRatifica;
     @FXML
-    private TableColumn<RecensioneTableViewRatifica, String> columnNomeStruttura, columnNickname, columnIndirizzo, columnCitta;
+    private TableColumn<RecensioneTableView, String> columnNomeStruttura, columnNickname, columnIndirizzo, columnCitta;
     @FXML
     private TextField textFieldNomeStrutturaRatifica, textFieldNicknameRatifica;
     @FXML
     private TextArea textAreaTestoRecensioneRatifica;
 
-    private ObservableList<RecensioneTableViewRatifica> listaRecensioni;
+    private ObservableList<RecensioneTableView> listaRecensioni;
     private RatificaRecensioniController ratificaRecensioniController = new RatificaRecensioniController();
 
 
@@ -214,12 +213,12 @@ public class RatificaRecensioniPage implements Initializable {
     private void updateTableView(boolean operationComplete) {
         if (operationComplete == true) {
             System.out.println("Finito!");
-            listaRecensioni = ratificaRecensioniController.getListaRecensioniTable();
+            listaRecensioni = ratificaRecensioniController.getListaRecensioniTableRatificaRecensioni();
             if (listaRecensioni != null && listaRecensioni.size() > 0) {
-                columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("NomeStruttura"));
-                columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Nickname"));
-                columnIndirizzo.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Indirizzo"));
-                columnCitta.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Citta"));
+                columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("NomeStruttura"));
+                columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Nickname"));
+                columnIndirizzo.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Indirizzo"));
+                columnCitta.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Citta"));
                 tableViewRatifica.setItems(listaRecensioni);
             } else if (listaRecensioni != null && listaRecensioni.size() == 0)
                 showDialogInformation("Risultato Ricerca", "La ricerca non ha prodotto risultati!");
@@ -281,10 +280,10 @@ public class RatificaRecensioniPage implements Initializable {
     private void updateTableViewAfterDeletes() {
 
         listaRecensioni = ratificaRecensioniController.deleteReviewFromTableViewList(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),tableViewRatifica.getSelectionModel().getSelectedItem().getNickname(),listaRecensioni);
-        columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("NomeStruttura"));
-        columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Nickname"));
-        columnIndirizzo.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Indirizzo"));
-        columnCitta.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Citta"));
+        columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("NomeStruttura"));
+        columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Nickname"));
+        columnIndirizzo.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Indirizzo"));
+        columnCitta.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Citta"));
         tableViewRatifica.setItems(listaRecensioni);
         resetTextViews();
     }
@@ -317,10 +316,10 @@ public class RatificaRecensioniPage implements Initializable {
 
     private void updateTableViewAfterModifies() {
         listaRecensioni = ratificaRecensioniController.deleteReviewFromTableViewList(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),tableViewRatifica.getSelectionModel().getSelectedItem().getNickname(),listaRecensioni);
-        columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("NomeStruttura"));
-        columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Nickname"));
-        columnIndirizzo.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Indirizzo"));
-        columnCitta.setCellValueFactory(new PropertyValueFactory<RecensioneTableViewRatifica, String>("Citta"));
+        columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("NomeStruttura"));
+        columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Nickname"));
+        columnIndirizzo.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Indirizzo"));
+        columnCitta.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Citta"));
         tableViewRatifica.setItems(listaRecensioni);
         tableViewRatifica.refresh();
     }

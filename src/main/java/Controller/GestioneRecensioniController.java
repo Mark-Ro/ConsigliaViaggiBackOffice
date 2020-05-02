@@ -10,25 +10,25 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class RatificaRecensioniController {
+public class GestioneRecensioniController {
 
     private AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
     private RecensioneDAO recensioneDAO = new RecensioneDAO();
 
     private ArrayList<Recensione> listaRecensioni;
 
-    public boolean queryListaRecensioniFromDatabase() {
+    public boolean queryListaRecensioniFromDatabase(String nomeStruttura, String nickname, String citta, String indirizzo) {
         boolean result = false;
         System.out.println("Entrato nella Query!");
         if (awsLambdaSettings.checkInternetConnection()) {
-            listaRecensioni = recensioneDAO.getListaRecensioniForRatificaFromDatabase();
+            listaRecensioni = recensioneDAO.getListaRecensioniForGestioneFromDatabase(nomeStruttura,nickname,citta,indirizzo);
             result = true;
         }
         System.out.println("Query finita!");
         return result;
     }
 
-    public ObservableList<RecensioneTableView> getListaRecensioniTableRatificaRecensioni() {
+    public ObservableList<RecensioneTableView> getListaRecensioniTableGestioneRecensioni() {
         Recensione recensione;
         ObservableList<RecensioneTableView> listaRecensioniTabella = null;
         if (listaRecensioni!=null) {
@@ -94,14 +94,4 @@ public class RatificaRecensioniController {
         return listaRecensioniTableView;
     }
 
-    public boolean acceptReview(String indirizzo, String nickname) {
-        boolean result = false;
-        int idRecensione = getIdRecensioneFromListaByIndirizzoAndNickname(indirizzo,nickname);
-
-        if (awsLambdaSettings.checkInternetConnection()) {
-            recensioneDAO.acceptReviewDatabase(String.valueOf(idRecensione));
-            result = true;
-        }
-        return result;
-    }
 }

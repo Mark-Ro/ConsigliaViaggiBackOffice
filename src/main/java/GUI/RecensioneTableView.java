@@ -1,10 +1,10 @@
 package GUI;
 
-public class RecensioneTableViewRatifica {
+public class RecensioneTableView {
 
     private String nomeStruttura,nickname,indirizzo,citta;
 
-    public RecensioneTableViewRatifica(String nomeStruttura, String nickname, String indirizzo, String citta) {
+    public RecensioneTableView(String nomeStruttura, String nickname, String indirizzo, String citta) {
         this.nomeStruttura = nomeStruttura;
         this.nickname = nickname;
         this.indirizzo = indirizzo;

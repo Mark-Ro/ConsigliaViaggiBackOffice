@@ -59,8 +59,14 @@ public class LoginPage implements Initializable{
     }
 
     private void doAccess(){
-        loginController = new LoginController(this);
-        loginController.effettuaLogin(textFieldUsername.getText(), textFieldPassword.getText());
+        if (textFieldUsername.getText().isEmpty() || textFieldUsername.getText().isBlank() || textFieldPassword.getText().isEmpty() || textFieldPassword.getText().isBlank()) {
+            showDialogError("Errore login", "Riempire i campi!");
+            btnAccediLogin.setDisable(false);
+        }
+        else {
+            loginController = new LoginController(this);
+            loginController.effettuaLogin(textFieldUsername.getText(), textFieldPassword.getText());
+        }
     }
 
     public void loadNextScreen(String nextScreen){
@@ -116,6 +122,13 @@ public class LoginPage implements Initializable{
         stageLogin.setOpacity(0);
         makeFadeInTransition();
     }
-    
+
+    private void showDialogError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
     
 }
