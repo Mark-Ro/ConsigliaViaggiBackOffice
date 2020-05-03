@@ -214,11 +214,11 @@ public class GestioneUtentiPage implements Initializable {
         openLoadingDialog(stage);
         new Thread(new Task<>() {
 
-            private boolean operationComplete = false;
+            private String resultOperation;
 
             @Override
             protected Object call() throws Exception {
-                operationComplete = gestioneUtentiController.saveModifies(textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldNomePubblico.getText(),textFieldEmailDati.getText(),comboBoxStato.getSelectionModel().getSelectedItem().toString(),textFieldNicknameDati.getText());
+                resultOperation = gestioneUtentiController.saveModifies(textFieldNomeDati.getText(),textFieldCognomeDati.getText(),textFieldNomePubblico.getText(),textFieldEmailDati.getText(),comboBoxStato.getSelectionModel().getSelectedItem().toString(),textFieldNicknameDati.getText());
                 return null;
             }
 
@@ -227,12 +227,14 @@ public class GestioneUtentiPage implements Initializable {
                 super.succeeded();
                 System.out.println("Entrato in onSucceded");
                 closeLoadingDialog(stage);
-                if (operationComplete == true) {
+                if (resultOperation.contains("Successfully")) {
                     showDialogInformation("Esito Modifiche", "L'utente è stato modificato con successo!");
                     updateTableViewAfterModifies();
                     gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
                 }
-                else
+                else if (resultOperation.contains("Email invalid!"))
+                    showDialogError("Errore modifica","Email già utilizzata da un altro utente!");
+                else if (resultOperation.contains("No connection!"))
                     showDialogError("Errore di connessione","Connessione Internet non disponibile!");
             }
         }).start();
