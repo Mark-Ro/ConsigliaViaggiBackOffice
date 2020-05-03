@@ -51,6 +51,7 @@ public class GestioneRecensioniPage implements Initializable {
     @FXML private ImageView idIconCercaGestioneRecensioni;
     @FXML private AnchorPane pnlGestioneRecensioni;
     @FXML private ImageView idIconClose;
+    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText,profiloAdminText;
     @FXML private Text idIconIconify;
     @FXML private Button idBtnEliminaRecensione, idBtnCercaGestioneRecensioni;
     @FXML private TextField textFieldNomeStrutturaRecensioni, textFieldNicknameRecensioni, textFieldCittaRecensioni,textFieldIndirizzoRecensioni;
@@ -61,7 +62,7 @@ public class GestioneRecensioniPage implements Initializable {
     private ObservableList<RecensioneTableView> listaRecensioni;
     private GestioneRecensioniController gestioneRecensioniController = new GestioneRecensioniController();
 
-    @FXML private void handleBtnEliminaRecensioneClicked(ActionEvent evt){
+    @FXML private void handleBtnEliminaRecensioneClicked (MouseEvent evt) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Elimina Recensione");
         alert.setHeaderText(null);
@@ -74,13 +75,7 @@ public class GestioneRecensioniPage implements Initializable {
         }
     }
 
-    @FXML
-    private void handleEnterKeyPressed(KeyEvent evt){
-        if(evt.getCode() == KeyCode.ENTER)
-            idBtnCercaGestioneRecensioni.fire();
-    }
-
-    @FXML private void handleBtnCercaGestioneRecensioniClicked(ActionEvent evt) {
+    @FXML private void handleBtnCercaGestioneRecensioniClicked(MouseEvent evt) {
         doResearch();
     }
 

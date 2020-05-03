@@ -7,6 +7,8 @@ package GUI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.EventListener;
+import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -16,6 +18,7 @@ import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -68,13 +72,14 @@ public class RatificaRecensioniPage implements Initializable {
     private TextField textFieldNomeStrutturaRatifica, textFieldNicknameRatifica;
     @FXML
     private TextArea textAreaTestoRecensioneRatifica;
+    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText,profiloAdminText;
 
     private ObservableList<RecensioneTableView> listaRecensioni;
     private RatificaRecensioniController ratificaRecensioniController = new RatificaRecensioniController();
 
 
     @FXML
-    private void handleBtnRifiutaRecensioneClicked(ActionEvent evt) {
+    private void handleBtnRifiutaRecensioneClicked(MouseEvent evt) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Elimina Recensione");
         alert.setHeaderText(null);
@@ -92,7 +97,7 @@ public class RatificaRecensioniPage implements Initializable {
     }
 
     @FXML
-    private void handleBtnAccettaRecensioneClicked(ActionEvent evt) {
+    private void handleBtnAccettaRecensioneClicked(MouseEvent evt) {
         acceptNewReview();
         idBtnAccettaRecensioneRatifica.setDisable(true);
         idBtnRifiutaRecensioneRatifica.setDisable(true);
@@ -100,14 +105,8 @@ public class RatificaRecensioniPage implements Initializable {
     }
 
     @FXML
-    private void handleEnterKeyPressed(KeyEvent evt){
-        if(evt.getCode() == KeyCode.ENTER)
-            idBtnVisualizzaRecensioniRatifica.fire();
-    }
-
-    @FXML
-    private void handleBtnVisualizzaRecensioniClicked(ActionEvent evt) {
-        visualizeReviews();
+    private void handleBtnVisualizzaRecensioniClicked(MouseEvent evt) {
+            visualizeReviews();
     }
 
     @FXML

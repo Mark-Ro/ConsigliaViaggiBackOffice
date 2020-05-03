@@ -40,6 +40,7 @@ public class ProfiloAdminPage implements Initializable {
     @FXML private ImageView idIconClose;
     @FXML private Text idIconIconify;
     @FXML private TextField textFieldNicknameProfilo;
+    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText,profiloAdminText;
 
     private ProfiloAdmin profiloAdmin = ProfiloAdmin.getIstance();
     

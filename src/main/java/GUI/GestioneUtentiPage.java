@@ -58,7 +58,7 @@ public class GestioneUtentiPage implements Initializable {
     private GestioneUtentiController gestioneUtentiController = new GestioneUtentiController();
     private ObservableList<UtenteTableView> listaUtenti;
 
-    @FXML private void handleButtonCercaUtentiClicked(ActionEvent evt) {
+    @FXML private void handleButtonCercaUtentiClicked(MouseEvent evt) {
         doResearch();
     }
 
@@ -74,13 +74,7 @@ public class GestioneUtentiPage implements Initializable {
         }
     }
 
-    @FXML
-    private void handleEnterKeyPressed(KeyEvent evt){
-        if(evt.getCode() == KeyCode.ENTER)
-            btnCercaGestioneUtenti.fire();
-    }
-
-    @FXML private void handleButtonSalvaModificheClicked(ActionEvent evt){
+    @FXML private void handleButtonSalvaModificheClicked(MouseEvent evt){
         if (textFieldNomeDati.getText().isEmpty() || textFieldCognomeDati.getText().isEmpty() || textFieldEmailDati.getText().isEmpty() || textFieldNomePubblico.getText().isEmpty())
             showDialogError("Errore Salva Modifiche","Riempire i campi!");
         else if (!textFieldEmailDati.getText().contains("@") || !textFieldEmailDati.getText().contains("."))
@@ -89,7 +83,7 @@ public class GestioneUtentiPage implements Initializable {
             updateUtenteAttributes();
     }
     
-    @FXML private void handleButtonEliminaUtenteClicked(ActionEvent evt) {
+    @FXML private void handleButtonEliminaUtenteClicked(MouseEvent evt) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Elimina Utente");
         alert.setHeaderText(null);
