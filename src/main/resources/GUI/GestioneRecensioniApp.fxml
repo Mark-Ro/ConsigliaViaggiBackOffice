@@ -113,7 +113,7 @@
             <Font name="Arial" size="40.0" />
          </font>
       </Text>
-      <Button fx:id="idBtnEliminaRecensione" disable="true" layoutX="361.0" layoutY="673.0" mnemonicParsing="false" onAction="#handleBtnEliminaRecensioneClicked" prefHeight="45.0" prefWidth="151.0" style="-fx-background-color: DD5448; -fx-background-radius: 20;" text="Elimina recensione" textFill="WHITE">
+      <Button fx:id="idBtnEliminaRecensione" disable="true" layoutX="361.0" layoutY="673.0" mnemonicParsing="false" onMouseClicked="#handleBtnEliminaRecensioneClicked" prefHeight="45.0" prefWidth="151.0" style="-fx-background-color: DD5448; -fx-background-radius: 20;" text="Elimina recensione" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
