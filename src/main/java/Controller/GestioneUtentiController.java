@@ -94,8 +94,8 @@ public class GestioneUtentiController {
     public boolean saveModifies(String nome, String cognome, String nomePubblico, String email, String stato, String nickname) {
         boolean result = false;
         if (awsLambdaSettings.checkInternetConnection()) {
-            utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
             if (wasUserBanned(nickname)) {
+                utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
                 if (stato.equals("unbanned")) {
                     gestioneUtentiCognito.unbanUtenteCognito(nickname);
                     gestioneUtentiCognito.saveModifiesIntoCognito(nickname,email);
@@ -108,8 +108,12 @@ public class GestioneUtentiController {
             }
             else {
                 gestioneUtentiCognito.saveModifiesIntoCognito(nickname, email);
-                if (stato.equals("banned"))
+                if (stato.equals("banned")) {
+                    utenteDAO.banUtenteFromDatabase(nickname,email,nome,cognome,nomePubblico);
                     gestioneUtentiCognito.banUtenteCognito(nickname);
+                }
+                else
+                    utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
             }
 
             result = true;

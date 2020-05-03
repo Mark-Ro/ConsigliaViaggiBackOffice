@@ -76,14 +76,8 @@
             <Image url="@../images/person-icon.png" />
          </image>
       </ImageView>
-      <TextField editable="false" layoutX="756.0" layoutY="430.0" prefHeight="26.0" prefWidth="282.0" style="-fx-background-radius: 20; -fx-background-color: EFF5FA;" />
-      <TextField editable="false" layoutX="756.0" layoutY="515.0" prefHeight="26.0" prefWidth="282.0" style="-fx-background-radius: 20; -fx-background-color: EFF5FA;" />
+      <TextField fx:id="textFieldNicknameProfilo" editable="false" layoutX="756.0" layoutY="430.0" prefHeight="26.0" prefWidth="282.0" style="-fx-background-radius: 20; -fx-background-color: EFF5FA;" />
       <Text layoutX="566.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="577.0" layoutY="536.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="56.61538314819339">
          <font>
             <Font size="18.0" />
          </font>

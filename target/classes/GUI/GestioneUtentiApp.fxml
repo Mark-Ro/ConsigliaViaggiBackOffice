@@ -8,7 +8,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="stageUtenti" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GestioneUtentiPage">
    <children>
-      <TableView fx:id="tableViewGestioneUtenti" editable="true" focusTraversable="false" layoutX="720.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleSelectedRow" prefHeight="715.0" prefWidth="615.0" style="-fx-background-color: #DAEFF7; -fx-background-radius: 50; -fx-selection-bar: DD5448;">
+      <TableView fx:id="tableViewGestioneUtenti" editable="true" focusTraversable="false" layoutX="720.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleSelectedRow" prefHeight="715.0" prefWidth="615.0" style="-fx-background-color: #DAEFF7; -fx-background-radius: 50;">
          <columns>
             <TableColumn fx:id="columnNickname" prefWidth="120.0" resizable="true" style="-fx-font-size: 18;" text="Nickname" />
             <TableColumn fx:id="columnEmail" prefWidth="252.80001220703127" resizable="true" style="-fx-font-size: 18;" text="Email" />
@@ -22,7 +22,7 @@
             <TextField fx:id="textFieldCognomeRicerca" layoutX="14.0" layoutY="92.0" onKeyPressed="#handleEnterKeyPressed" prefHeight="26.0" prefWidth="180.0" promptText="Cognome" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
             <TextField fx:id="textFieldNomeRicerca" layoutX="264.0" layoutY="43.0" onKeyPressed="#handleEnterKeyPressed" prefHeight="26.0" prefWidth="180.0" promptText="Nome" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
             <TextField fx:id="textFieldEmailRicerca" layoutX="264.0" layoutY="92.0" onKeyPressed="#handleEnterKeyPressed" prefHeight="26.0" prefWidth="180.0" promptText="Email" style="-fx-background-color: CFE3F0; -fx-background-radius: 20;" />
-            <Button fx:id="btnCercaGestioneUtenti" layoutX="155.0" layoutY="141.0" mnemonicParsing="false" onAction="#handleButtonCercaUtentiClicked" prefHeight="34.0" prefWidth="148.0" style="-fx-background-radius: 20; -fx-background-color: #086485;" text="Cerca" textFill="WHITE">
+            <Button fx:id="btnCercaGestioneUtenti" layoutX="155.0" layoutY="141.0" mnemonicParsing="false" onAction="#handleButtonCercaUtentiClicked" prefHeight="34.0" prefWidth="148.0" style="-fx-background-radius: 20; -fx-background-color: #086485; -fx-selection-bar: DD5448;" text="Cerca" textFill="WHITE">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
