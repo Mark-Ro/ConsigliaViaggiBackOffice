@@ -4,6 +4,7 @@ import Cognito.LoginCognito;
 import Entity.ProfiloAdmin;
 import GUI.LoginPage;
 import com.amazonaws.services.cognitoidp.model.NotAuthorizedException;
+import javafx.scene.control.Alert;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -19,17 +20,30 @@ public class LoginController {
     }
 
     public void effettuaLogin(String username, String password) {
-        try {
-            loginCognito.doLoginAdmin(username, password);
-            profiloAdmin.setUsername(username);
-            openRatificaRecensioniPage();
+
+        if (username.isEmpty() || username.isBlank() || password.isEmpty() || password.isBlank())
+            showDialogError("Errore login","Riempire i campi!");
+        else {
+            try {
+                loginCognito.doLoginAdmin(username, password);
+                profiloAdmin.setUsername(username);
+                openRatificaRecensioniPage();
+            } catch (InvocationTargetException invocationTargetException) {
+                showDialogError("Errore login", "Credenziali errate!");
+                loginPage.resetGraphics();
+            } catch (NotAuthorizedException notAuthorizedException) {
+                showDialogError("Errore login", "Credenziali errate!");
+                loginPage.resetGraphics();
+            }
         }
-        catch (InvocationTargetException invocationTargetException) {
-            loginPage.openDialogErroreLogin();
-        }
-        catch (NotAuthorizedException notAuthorizedException) {
-            loginPage.openDialogErroreLogin();
-        }
+    }
+
+    private void showDialogError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.setHeaderText(null);
+        alert.showAndWait();
     }
 
     private void openRatificaRecensioniPage() {
