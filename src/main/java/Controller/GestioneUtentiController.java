@@ -91,33 +91,50 @@ public class GestioneUtentiController {
         return listaUtenti;
     }
 
-    public boolean saveModifies(String nome, String cognome, String nomePubblico, String email, String stato, String nickname) {
-        boolean result = false;
-        if (awsLambdaSettings.checkInternetConnection()) {
-            if (wasUserBanned(nickname)) {
-                utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
-                if (stato.equals("unbanned")) {
-                    gestioneUtentiCognito.unbanUtenteCognito(nickname);
-                    gestioneUtentiCognito.saveModifiesIntoCognito(nickname,email);
-                }
-                else {
-                    gestioneUtentiCognito.unbanUtenteCognito(nickname);
-                    gestioneUtentiCognito.saveModifiesIntoCognito(nickname,email);
-                    gestioneUtentiCognito.banUtenteCognito(nickname);
-                }
+    private boolean isEmailUnique(String nickname, String email) {
+        int trovatoUtente = 0;
+        boolean result = true;
+        Iterator<Utente> iterator = listaUtenti.iterator();
+        Utente utente;
+        while (iterator.hasNext() && trovatoUtente == 0) {
+            utente = iterator.next();
+            if (!utente.getNickname().equals(nickname) && utente.getEmail().equals(email)) {
+                result = false;
+                trovatoUtente = 1;
             }
-            else {
-                gestioneUtentiCognito.saveModifiesIntoCognito(nickname, email);
-                if (stato.equals("banned")) {
-                    utenteDAO.banUtenteFromDatabase(nickname,email,nome,cognome,nomePubblico);
-                    gestioneUtentiCognito.banUtenteCognito(nickname);
-                }
-                else
-                    utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
-            }
-
-            result = true;
         }
+        return result;
+    }
+
+    public String saveModifies(String nome, String cognome, String nomePubblico, String email, String stato, String nickname) {
+        String result;
+        if (awsLambdaSettings.checkInternetConnection()) {
+            if (isEmailUnique(nickname,email)) {
+                if (wasUserBanned(nickname)) {
+                    utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
+                    if (stato.equals("unbanned")) {
+                        gestioneUtentiCognito.unbanUtenteCognito(nickname);
+                        gestioneUtentiCognito.saveModifiesIntoCognito(nickname, email);
+                    } else {
+                        gestioneUtentiCognito.unbanUtenteCognito(nickname);
+                        gestioneUtentiCognito.saveModifiesIntoCognito(nickname, email);
+                        gestioneUtentiCognito.banUtenteCognito(nickname);
+                    }
+                } else {
+                    gestioneUtentiCognito.saveModifiesIntoCognito(nickname, email);
+                    if (stato.equals("banned")) {
+                        utenteDAO.banUtenteFromDatabase(nickname, email, nome, cognome, nomePubblico);
+                        gestioneUtentiCognito.banUtenteCognito(nickname);
+                    } else
+                        utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
+                }
+                result = "Successfully";
+            }
+            else
+                result = "Email invalid!";
+        }
+        else
+            result = "No connection!";
         return result;
     }
 
