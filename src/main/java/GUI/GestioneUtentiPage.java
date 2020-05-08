@@ -55,7 +55,7 @@ public class GestioneUtentiPage implements Initializable {
     @FXML private TableView<UtenteTableView> tableViewGestioneUtenti;
     @FXML private TableColumn<UtenteTableView, String> columnNickname,columnNome,columnCognome,columnEmail;
 
-    private GestioneUtentiController gestioneUtentiController = new GestioneUtentiController();
+    private GestioneUtentiController gestioneUtentiController = new GestioneUtentiController(this);
     private ObservableList<UtenteTableView> listaUtenti;
 
     @FXML private void handleButtonCercaUtentiClicked(MouseEvent evt) {
@@ -106,15 +106,15 @@ public class GestioneUtentiPage implements Initializable {
     }
     
     @FXML private void handleGestioneRecensioniIconClicked(MouseEvent evt){
-        makeFadeOut("GestioneRecensioniApp.fxml");
+        gestioneUtentiController.openGestioneRecensioniPage();
     }
     
     @FXML private void handleRatificaRecensioniIconClicked(MouseEvent evt){
-        makeFadeOut("RatificaRecensioni.fxml");
+        gestioneUtentiController.openRatificaRecensioniPage();
     }
     
     @FXML private void handleProfiloAdminIconClicked(MouseEvent evt){
-        makeFadeOut("ProfiloAdmin.fxml");
+        gestioneUtentiController.openProfiloPage();
     }
     
     private void makeFadeInTransition() {
@@ -126,7 +126,7 @@ public class GestioneUtentiPage implements Initializable {
         fadeTrans.play();    
     }
     
-    private void makeFadeOut(String fxml){
+    public void loadNextScreen(String fxml){
     FadeTransition fadeTrans = new FadeTransition();
     fadeTrans.setDuration(javafx.util.Duration.millis(500));
     fadeTrans.setNode(stageUtenti);
@@ -134,12 +134,6 @@ public class GestioneUtentiPage implements Initializable {
     fadeTrans.setToValue(0);
 
     fadeTrans.setOnFinished((ActionEvent t) -> {
-        loadNextScreen(fxml);
-    });       
-    fadeTrans.play();
-    }
-    
-   private void loadNextScreen(String fxml){           
         Parent secondView = null;
         try {
             secondView =(AnchorPane)FXMLLoader.load(getClass().getResource(fxml));
@@ -151,15 +145,16 @@ public class GestioneUtentiPage implements Initializable {
 
         curStage.setScene(newScene);
         curStage.centerOnScreen();
-         newScene.setOnMousePressed((MouseEvent event) -> {
+        newScene.setOnMousePressed((MouseEvent event) -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
-         });
-        newScene.setOnMouseDragged((MouseEvent event) -> {
-        curStage.setX(event.getScreenX() - xOffset);
-        curStage.setY(event.getScreenY() - yOffset);
         });
-       
+        newScene.setOnMouseDragged((MouseEvent event) -> {
+            curStage.setX(event.getScreenX() - xOffset);
+            curStage.setY(event.getScreenY() - yOffset);
+        });
+    });       
+    fadeTrans.play();
     }
     
     @Override

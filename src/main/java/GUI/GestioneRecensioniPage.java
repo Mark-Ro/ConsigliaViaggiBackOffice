@@ -60,7 +60,7 @@ public class GestioneRecensioniPage implements Initializable {
     @FXML private TableColumn<RecensioneTableView, String> columnNomeStrutturaRecensione, columnNicknameRecensione, columnIndirizzoRecensione, columnCittaRecensione;
 
     private ObservableList<RecensioneTableView> listaRecensioni;
-    private GestioneRecensioniController gestioneRecensioniController = new GestioneRecensioniController();
+    private GestioneRecensioniController gestioneRecensioniController = new GestioneRecensioniController(this);
 
     @FXML private void handleBtnEliminaRecensioneClicked (MouseEvent evt) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -113,15 +113,15 @@ public class GestioneRecensioniPage implements Initializable {
 
     
     @FXML private void handleGestioneUtentiIconClicked(MouseEvent evt){
-        makeFadeOut("GestioneUtentiApp.fxml");
+        gestioneRecensioniController.openGestioneUtentiPage();
     }
     
     @FXML private void handleRatifcaRecensioniIconClicked(MouseEvent evt){
-        makeFadeOut("RatificaRecensioni.fxml");
+        gestioneRecensioniController.openRatificaRecensioniPage();
     }
     
     @FXML private void handleProfiloAdminIconClicked(MouseEvent evt){
-        makeFadeOut("ProfiloAdmin.fxml");
+        gestioneRecensioniController.openProfiloPage();
     }
     
     private void makeFadeInTransition() {
@@ -133,7 +133,7 @@ public class GestioneRecensioniPage implements Initializable {
         fadeTrans.play();    
     }
     
-    private void makeFadeOut(String fxml){
+    public void loadingNextScreen(String fxml) {
     FadeTransition fadeTrans = new FadeTransition();
     fadeTrans.setDuration(javafx.util.Duration.millis(500));
     fadeTrans.setNode(stageRecensioni);
@@ -141,13 +141,6 @@ public class GestioneRecensioniPage implements Initializable {
     fadeTrans.setToValue(0);
 
     fadeTrans.setOnFinished((ActionEvent t) -> {
-        loadNextScreen(fxml);
-    });       
-    fadeTrans.play();
-    }
-    
-   private void loadNextScreen(String fxml){
-            
         Parent secondView = null;
         try {
             secondView =(AnchorPane)FXMLLoader.load(getClass().getResource(fxml));
@@ -159,17 +152,18 @@ public class GestioneRecensioniPage implements Initializable {
 
         curStage.setScene(newScene);
         curStage.centerOnScreen();
-         newScene.setOnMousePressed((MouseEvent event) -> {
+        newScene.setOnMousePressed((MouseEvent event) -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
-         });
-        newScene.setOnMouseDragged((MouseEvent event) -> {
-        curStage.setX(event.getScreenX() - xOffset);
-        curStage.setY(event.getScreenY() - yOffset);
         });
-       
+        newScene.setOnMouseDragged((MouseEvent event) -> {
+            curStage.setX(event.getScreenX() - xOffset);
+            curStage.setY(event.getScreenY() - yOffset);
+        });
+    });       
+    fadeTrans.play();
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         stageRecensioni.setOpacity(0);

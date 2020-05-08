@@ -20,21 +20,14 @@ public class LoginController {
     }
 
     public void effettuaLogin(String username, String password) {
-
-        if (username.isEmpty() || username.isBlank() || password.isEmpty() || password.isBlank())
-            showDialogError("Errore login","Riempire i campi!");
-        else {
-            try {
-                loginCognito.doLoginAdmin(username, password);
-                profiloAdmin.setUsername(username);
-                openRatificaRecensioniPage();
+        try {
+            loginCognito.doLoginAdmin(username, password);
+            profiloAdmin.setUsername(username);
+            openRatificaRecensioniPage();
             } catch (InvocationTargetException invocationTargetException) {
                 showDialogError("Errore login", "Credenziali errate!");
-                loginPage.resetGraphics();
             } catch (NotAuthorizedException notAuthorizedException) {
                 showDialogError("Errore login", "Credenziali errate!");
-                loginPage.resetGraphics();
-            }
         }
     }
 
@@ -49,5 +42,4 @@ public class LoginController {
     private void openRatificaRecensioniPage() {
         loginPage.loadNextScreen("RatificaRecensioni.fxml");
     }
-
 }

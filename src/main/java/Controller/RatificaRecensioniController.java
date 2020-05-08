@@ -3,6 +3,7 @@ package Controller;
 import DAO.AWSLambdaSettings;
 import DAO.RecensioneDAO;
 import Entity.Recensione;
+import GUI.RatificaRecensioniPage;
 import GUI.RecensioneTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,10 +13,17 @@ import java.util.Iterator;
 
 public class RatificaRecensioniController {
 
-    private AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
-    private RecensioneDAO recensioneDAO = new RecensioneDAO();
+    private RatificaRecensioniPage ratificaRecensioniPage;
+    private AWSLambdaSettings awsLambdaSettings;
+    private RecensioneDAO recensioneDAO;
 
     private ArrayList<Recensione> listaRecensioni;
+
+    public RatificaRecensioniController(RatificaRecensioniPage ratificaRecensioniPage) {
+        this.ratificaRecensioniPage = ratificaRecensioniPage;
+        this.awsLambdaSettings = AWSLambdaSettings.getIstance();
+        this.recensioneDAO = new RecensioneDAO();
+    }
 
     public boolean queryListaRecensioniFromDatabase() {
         boolean result = false;
@@ -103,5 +111,17 @@ public class RatificaRecensioniController {
             result = true;
         }
         return result;
+    }
+
+    public void openGestioneUtentiPage() {
+        ratificaRecensioniPage.loadNextScreen("GestioneUtentiApp.fxml");
+    }
+
+    public void openGestioneRecensioniPage() {
+        ratificaRecensioniPage.loadNextScreen("GestioneRecensioniApp.fxml");
+    }
+
+    public void openProfiloPage() {
+        ratificaRecensioniPage.loadNextScreen("ProfiloAdmin.fxml");
     }
 }

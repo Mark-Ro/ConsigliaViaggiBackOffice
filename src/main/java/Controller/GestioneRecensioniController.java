@@ -3,6 +3,7 @@ package Controller;
 import DAO.AWSLambdaSettings;
 import DAO.RecensioneDAO;
 import Entity.Recensione;
+import GUI.GestioneRecensioniPage;
 import GUI.RecensioneTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,10 +13,17 @@ import java.util.Iterator;
 
 public class GestioneRecensioniController {
 
-    private AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
-    private RecensioneDAO recensioneDAO = new RecensioneDAO();
+    private GestioneRecensioniPage gestioneRecensioniPage;
+    private AWSLambdaSettings awsLambdaSettings;
+    private RecensioneDAO recensioneDAO;
 
     private ArrayList<Recensione> listaRecensioni;
+
+    public GestioneRecensioniController(GestioneRecensioniPage gestioneRecensioniPage) {
+        this.gestioneRecensioniPage = gestioneRecensioniPage;
+        this.awsLambdaSettings = AWSLambdaSettings.getIstance();
+        this.recensioneDAO = new RecensioneDAO();
+    }
 
     public boolean queryListaRecensioniFromDatabase(String nomeStruttura, String nickname, String citta, String indirizzo) {
         boolean result = false;
@@ -92,6 +100,18 @@ public class GestioneRecensioniController {
             }
         }
         return listaRecensioniTableView;
+    }
+
+    public void openRatificaRecensioniPage() {
+        gestioneRecensioniPage.loadingNextScreen("RatificaRecensioni.fxml");
+    }
+
+    public void openGestioneUtentiPage() {
+        gestioneRecensioniPage.loadingNextScreen("GestioneUtentiApp.fxml");
+    }
+
+    public void openProfiloPage() {
+        gestioneRecensioniPage.loadingNextScreen("ProfiloAdmin.fxml");
     }
 
 }

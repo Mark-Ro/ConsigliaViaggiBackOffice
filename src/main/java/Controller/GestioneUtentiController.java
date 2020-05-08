@@ -15,10 +15,19 @@ import java.util.Iterator;
 
 public class GestioneUtentiController {
 
+    private GestioneUtentiPage gestioneUtentiPage;
+    private UtenteDAO utenteDAO;
+    private GestioneUtentiCognito gestioneUtentiCognito;
+    private AWSLambdaSettings awsLambdaSettings;
+
     private ArrayList<Utente> listaUtenti;
-    private UtenteDAO utenteDAO = new UtenteDAO();
-    private GestioneUtentiCognito gestioneUtentiCognito = new GestioneUtentiCognito();
-    private AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();
+
+    public GestioneUtentiController(GestioneUtentiPage gestioneUtentiPage) {
+        this.gestioneUtentiPage = gestioneUtentiPage;
+        this.utenteDAO = new UtenteDAO();
+        this.gestioneUtentiCognito = new GestioneUtentiCognito();
+        this.awsLambdaSettings = AWSLambdaSettings.getIstance();
+    }
 
     public ArrayList<Utente> getListaUtenti() {
         return listaUtenti;
@@ -162,5 +171,17 @@ public class GestioneUtentiController {
             result = true;
         }
         return result;
+    }
+
+    public void openRatificaRecensioniPage() {
+        gestioneUtentiPage.loadNextScreen("RatificaRecensioni.fxml");
+    }
+
+    public void openGestioneRecensioniPage() {
+        gestioneUtentiPage.loadNextScreen("GestioneRecensioniApp.fxml");
+    }
+
+    public void openProfiloPage() {
+        gestioneUtentiPage.loadNextScreen("ProfiloAdmin.fxml");
     }
 }

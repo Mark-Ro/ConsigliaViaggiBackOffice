@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -57,9 +58,24 @@ public class LoginPage implements Initializable{
             btnAccediLogin.fire();
     }
 
-    private void doAccess(){
-        loginController = new LoginController(this);
-        loginController.effettuaLogin(textFieldUsername.getText(), textFieldPassword.getText());
+    private void showDialogError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
+    private void doAccess() {
+        if (textFieldUsername.getText().isEmpty() || textFieldUsername.getText().isBlank() || textFieldPassword.getText().isEmpty() || textFieldPassword.getText().isBlank()) {
+            showDialogError("Errore login", "Riempire i campi!");
+            btnAccediLogin.setDisable(false);
+        }
+        else {
+            loginController = new LoginController(this);
+            loginController.effettuaLogin(textFieldUsername.getText(), textFieldPassword.getText());
+            btnAccediLogin.setDisable(false);
+        }
     }
 
     public void loadNextScreen(String nextScreen){
@@ -101,13 +117,11 @@ public class LoginPage implements Initializable{
         fadeTrans.play();    
     }
 
-    public void resetGraphics() {
-        btnAccediLogin.setDisable(false);
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         stageLogin.setOpacity(0);
         makeFadeInTransition();
     }
+
+
 }

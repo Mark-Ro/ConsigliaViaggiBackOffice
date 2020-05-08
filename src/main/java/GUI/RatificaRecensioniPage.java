@@ -75,7 +75,7 @@ public class RatificaRecensioniPage implements Initializable {
     @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText,profiloAdminText;
 
     private ObservableList<RecensioneTableView> listaRecensioni;
-    private RatificaRecensioniController ratificaRecensioniController = new RatificaRecensioniController();
+    private RatificaRecensioniController ratificaRecensioniController = new RatificaRecensioniController(this);
 
 
     @FXML
@@ -133,17 +133,17 @@ public class RatificaRecensioniPage implements Initializable {
 
     @FXML
     private void handleGestioneUtentiIconClicked(MouseEvent evt) {
-        makeFadeOut("GestioneUtentiApp.fxml");
+        ratificaRecensioniController.openGestioneUtentiPage();
     }
 
     @FXML
     private void handleGestioneRecensioniIconClicked(MouseEvent evt) {
-        makeFadeOut("GestioneRecensioniApp.fxml");
+        ratificaRecensioniController.openGestioneRecensioniPage();
     }
 
     @FXML
     private void handleProfiloAdminIconClicked(MouseEvent evt) {
-        makeFadeOut("ProfiloAdmin.fxml");
+        ratificaRecensioniController.openProfiloPage();
     }
 
     private void makeFadeInTransition() {
@@ -155,7 +155,7 @@ public class RatificaRecensioniPage implements Initializable {
         fadeTrans.play();
     }
 
-    private void makeFadeOut(String fxml) {
+    public void loadNextScreen(String fxml) {
         FadeTransition fadeTrans = new FadeTransition();
         fadeTrans.setDuration(javafx.util.Duration.millis(500));
         fadeTrans.setNode(stageRatifica);
@@ -163,30 +163,25 @@ public class RatificaRecensioniPage implements Initializable {
         fadeTrans.setToValue(0);
 
         fadeTrans.setOnFinished((ActionEvent t) -> {
-            loadNextScreen(fxml);
+            try {
+                Parent secondView = (AnchorPane) FXMLLoader.load(getClass().getResource(fxml));
+                Scene newScene = new Scene(secondView);
+                Stage curStage = (Stage) stageRatifica.getScene().getWindow();
+                curStage.setScene(newScene);
+                curStage.centerOnScreen();
+                newScene.setOnMousePressed((MouseEvent event) -> {
+                    xOffset = event.getSceneX();
+                    yOffset = event.getSceneY();
+                });
+                newScene.setOnMouseDragged((MouseEvent event) -> {
+                    curStage.setX(event.getScreenX() - xOffset);
+                    curStage.setY(event.getScreenY() - yOffset);
+                });
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
         fadeTrans.play();
-    }
-
-    private void loadNextScreen(String fxml) {
-        try {
-            Parent secondView = (AnchorPane) FXMLLoader.load(getClass().getResource(fxml));
-            Scene newScene = new Scene(secondView);
-            Stage curStage = (Stage) stageRatifica.getScene().getWindow();
-            curStage.setScene(newScene);
-            curStage.centerOnScreen();
-            newScene.setOnMousePressed((MouseEvent event) -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            });
-            newScene.setOnMouseDragged((MouseEvent event) -> {
-                curStage.setX(event.getScreenX() - xOffset);
-                curStage.setY(event.getScreenY() - yOffset);
-            });
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
     }
 
     @Override
