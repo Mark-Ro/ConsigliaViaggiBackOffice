@@ -19,16 +19,19 @@ public class LoginController {
         this.profiloAdmin = ProfiloAdmin.getIstance();
     }
 
-    public void effettuaLogin(String username, String password) {
+    public boolean effettuaLogin(String username, String password) {
+        boolean result = false;
         try {
             loginCognito.doLoginAdmin(username, password);
             profiloAdmin.setUsername(username);
             openRatificaRecensioniPage();
+            result = true;
             } catch (InvocationTargetException invocationTargetException) {
                 showDialogError("Errore login", "Credenziali errate!");
             } catch (NotAuthorizedException notAuthorizedException) {
                 showDialogError("Errore login", "Credenziali errate!");
         }
+        return result;
     }
 
     private void showDialogError(String title, String message) {
