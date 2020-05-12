@@ -73,8 +73,9 @@ public class LoginPage implements Initializable{
         }
         else {
             loginController = new LoginController(this);
-            loginController.effettuaLogin(textFieldUsername.getText(), textFieldPassword.getText());
-            btnAccediLogin.setDisable(false);
+            boolean resultLogin = loginController.effettuaLogin(textFieldUsername.getText(), textFieldPassword.getText());
+            if (resultLogin==false)
+                btnAccediLogin.setDisable(false);
         }
     }
 
