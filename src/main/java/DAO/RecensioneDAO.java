@@ -37,7 +37,7 @@ public class RecensioneDAO {
         if (indirizzo.isEmpty() || indirizzo.isBlank())
             indirizzo="null";
 
-        String resultJSON = doQueryGestioneRecensione(nomeStruttura,nickname,citta,indirizzo);
+        String resultJSON = doQueryGestioneRecensioni(nomeStruttura,nickname,citta,indirizzo);
         ArrayList<Recensione> listaRecensioni = analizzaQuery(resultJSON);
         return listaRecensioni;
     }
@@ -56,7 +56,7 @@ public class RecensioneDAO {
         return resultJSON;
     }
 
-    private String doQueryGestioneRecensione(String nomeStruttura, String nickname, String citta, String indirizzo) {
+    private String doQueryGestioneRecensioni(String nomeStruttura, String nickname, String citta, String indirizzo) {
         String functionName = "queryGestioneRecensioniBackOffice";
 
         AWSLambdaSettings awsLambdaSettings = AWSLambdaSettings.getIstance();

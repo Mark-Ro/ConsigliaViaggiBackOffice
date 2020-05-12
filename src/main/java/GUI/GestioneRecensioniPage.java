@@ -211,7 +211,7 @@ public class GestioneRecensioniPage implements Initializable {
     private void updateTableView(boolean operationComplete) {
         if (operationComplete == true) {
             System.out.println("Finito!");
-            listaRecensioni = gestioneRecensioniController.getListaRecensioniTableGestioneRecensioni();
+            listaRecensioni = gestioneRecensioniController.getListaRecensioniTable();
             if (listaRecensioni != null && listaRecensioni.size() > 0) {
                 columnNomeStrutturaRecensione.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("NomeStruttura"));
                 columnNicknameRecensione.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Nickname"));
@@ -235,7 +235,7 @@ public class GestioneRecensioniPage implements Initializable {
 
             @Override
             protected Object call() throws Exception {
-                operationComplete = gestioneRecensioniController.queryListaRecensioniFromDatabase(textFieldNomeStrutturaRecensioni.getText(),textFieldNicknameRecensioni.getText(),textFieldCittaRecensioni.getText(),textFieldIndirizzoRecensioni.getText());
+                operationComplete = gestioneRecensioniController.queryListaRecensioni(textFieldNomeStrutturaRecensioni.getText(),textFieldNicknameRecensioni.getText(),textFieldCittaRecensioni.getText(),textFieldIndirizzoRecensioni.getText());
                 return null;
             }
 

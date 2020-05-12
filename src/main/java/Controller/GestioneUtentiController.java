@@ -1,15 +1,17 @@
 package Controller;
 
 import Cognito.GestioneUtentiCognito;
-import DAO.AWSLambdaSettings;
 import DAO.UtenteDAO;
 import Entity.Utente;
 import GUI.GestioneUtentiPage;
 import GUI.UtenteTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,7 +20,6 @@ public class GestioneUtentiController {
     private GestioneUtentiPage gestioneUtentiPage;
     private UtenteDAO utenteDAO;
     private GestioneUtentiCognito gestioneUtentiCognito;
-    private AWSLambdaSettings awsLambdaSettings;
 
     private ArrayList<Utente> listaUtenti;
 
@@ -26,17 +27,12 @@ public class GestioneUtentiController {
         this.gestioneUtentiPage = gestioneUtentiPage;
         this.utenteDAO = new UtenteDAO();
         this.gestioneUtentiCognito = new GestioneUtentiCognito();
-        this.awsLambdaSettings = AWSLambdaSettings.getIstance();
     }
 
-    public ArrayList<Utente> getListaUtenti() {
-        return listaUtenti;
-    }
-
-    public boolean queryListaUtentiFromDatabase(String nickname, String nome, String cognome, String email) {
+    public boolean queryListaUtenti(String nickname, String nome, String cognome, String email) {
         boolean result = false;
         System.out.println("Entrato nella Query!");
-        if (awsLambdaSettings.checkInternetConnection()) {
+        if (checkInternetConnection()) {
             listaUtenti = utenteDAO.getListaUtentiFromDatabase(nickname, nome, cognome, email);
             result = true;
         }
@@ -117,7 +113,7 @@ public class GestioneUtentiController {
 
     public String saveModifies(String nome, String cognome, String nomePubblico, String email, String stato, String nickname) {
         String result;
-        if (awsLambdaSettings.checkInternetConnection()) {
+        if (checkInternetConnection()) {
             if (isEmailUnique(nickname,email)) {
                 if (wasUserBanned(nickname)) {
                     utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
@@ -165,7 +161,7 @@ public class GestioneUtentiController {
 
     public boolean deleteUser(String nickname) {
         boolean result = false;
-        if (awsLambdaSettings.checkInternetConnection()) {
+        if (checkInternetConnection()) {
             utenteDAO.deleteUserFromDatabase(nickname);
             gestioneUtentiCognito.deleteUserFromCognito(nickname);
             result = true;
@@ -183,5 +179,21 @@ public class GestioneUtentiController {
 
     public void openProfiloPage() {
         gestioneUtentiPage.loadNextScreen("ProfiloAdmin.fxml");
+    }
+
+    private boolean checkInternetConnection() {
+        boolean result = false;
+        try {
+            URL url = new URL("https://aws.amazon.com/it/");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            result = true;
+        } catch (MalformedURLException e) {
+            System.out.println("Internet is not connected");
+        } catch (IOException e) {
+            System.out.println("Internet is not connected");
+        }
+
+        return result;
     }
 }

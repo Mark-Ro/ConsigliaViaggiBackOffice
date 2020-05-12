@@ -191,7 +191,7 @@ public class GestioneUtentiPage implements Initializable {
 
             @Override
             protected Object call() throws Exception {
-                operationComplete = gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
+                operationComplete = gestioneUtentiController.queryListaUtenti(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
                 return null;
             }
 
@@ -225,7 +225,7 @@ public class GestioneUtentiPage implements Initializable {
                 if (resultOperation.contains("Successfully")) {
                     showDialogInformation("Esito Modifiche", "L'utente è stato modificato con successo!");
                     updateTableViewAfterModifies();
-                    gestioneUtentiController.queryListaUtentiFromDatabase(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
+                    gestioneUtentiController.queryListaUtenti(textFieldNicknameRicerca.getText(),textFieldNomeRicerca.getText(),textFieldCognomeRicerca.getText(),textFieldEmailRicerca.getText());
                 }
                 else if (resultOperation.contains("Email invalid!"))
                     showDialogError("Errore modifica","Email già utilizzata da un altro utente!");

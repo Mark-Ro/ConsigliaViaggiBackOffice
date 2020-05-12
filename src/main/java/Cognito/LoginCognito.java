@@ -29,6 +29,6 @@ public class LoginCognito {
         credentialsProvider.getCredentials();
         req.setRequestCredentialsProvider(credentialsProvider);
         AWSCognitoIdentityProvider provider = AWSCognitoIdentityProviderClientBuilder.standard().withCredentials(DefaultAWSCredentialsProviderChain.getInstance()).withRegion(Regions.EU_CENTRAL_1).build();
-        AdminInitiateAuthResult result = provider.adminInitiateAuth(req);
+        provider.adminInitiateAuth(req);
     }
 }

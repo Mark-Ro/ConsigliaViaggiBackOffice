@@ -200,7 +200,7 @@ public class RatificaRecensioniPage implements Initializable {
 
             @Override
             protected Object call() throws Exception {
-                operationComplete = ratificaRecensioniController.queryListaRecensioniFromDatabase();
+                operationComplete = ratificaRecensioniController.queryListaRecensioni();
                 return null;
             }
 
@@ -216,7 +216,7 @@ public class RatificaRecensioniPage implements Initializable {
     private void updateTableView(boolean operationComplete) {
         if (operationComplete == true) {
             System.out.println("Finito!");
-            listaRecensioni = ratificaRecensioniController.getListaRecensioniTableRatificaRecensioni();
+            listaRecensioni = ratificaRecensioniController.getListaRecensioniTable();
             if (listaRecensioni != null && listaRecensioni.size() > 0) {
                 columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("NomeStruttura"));
                 columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Nickname"));

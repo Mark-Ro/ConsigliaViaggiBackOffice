@@ -3,18 +3,15 @@ package DAO;
 import Entity.Utente;
 import com.amazonaws.auth.*;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.cognitoidp.model.*;
 import com.amazonaws.services.lambda.AWSLambda;
 import com.amazonaws.services.lambda.AWSLambdaClientBuilder;
 import com.amazonaws.services.lambda.model.InvocationType;
 import com.amazonaws.services.lambda.model.InvokeResult;
 import com.amazonaws.services.lambda.model.InvokeRequest;
-import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
-import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
+
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

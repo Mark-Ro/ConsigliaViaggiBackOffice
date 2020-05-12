@@ -1,6 +1,5 @@
 package Controller;
 
-import DAO.AWSLambdaSettings;
 import DAO.RecensioneDAO;
 import Entity.Recensione;
 import GUI.GestioneRecensioniPage;
@@ -8,27 +7,29 @@ import GUI.RecensioneTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class GestioneRecensioniController {
 
     private GestioneRecensioniPage gestioneRecensioniPage;
-    private AWSLambdaSettings awsLambdaSettings;
     private RecensioneDAO recensioneDAO;
 
     private ArrayList<Recensione> listaRecensioni;
 
     public GestioneRecensioniController(GestioneRecensioniPage gestioneRecensioniPage) {
         this.gestioneRecensioniPage = gestioneRecensioniPage;
-        this.awsLambdaSettings = AWSLambdaSettings.getIstance();
         this.recensioneDAO = new RecensioneDAO();
     }
 
-    public boolean queryListaRecensioniFromDatabase(String nomeStruttura, String nickname, String citta, String indirizzo) {
+    public boolean queryListaRecensioni(String nomeStruttura, String nickname, String citta, String indirizzo) {
         boolean result = false;
         System.out.println("Entrato nella Query!");
-        if (awsLambdaSettings.checkInternetConnection()) {
+        if (checkInternetConnection()) {
             listaRecensioni = recensioneDAO.getListaRecensioniForGestioneFromDatabase(nomeStruttura,nickname,citta,indirizzo);
             result = true;
         }
@@ -36,7 +37,7 @@ public class GestioneRecensioniController {
         return result;
     }
 
-    public ObservableList<RecensioneTableView> getListaRecensioniTableGestioneRecensioni() {
+    public ObservableList<RecensioneTableView> getListaRecensioniTable() {
         Recensione recensione;
         ObservableList<RecensioneTableView> listaRecensioniTabella = null;
         if (listaRecensioni!=null) {
@@ -80,7 +81,7 @@ public class GestioneRecensioniController {
     public boolean deleteReview(String indirizzo, String nickname) {
         boolean result = false;
         int idRecensione = -1;
-        if (awsLambdaSettings.checkInternetConnection()) {
+        if (checkInternetConnection()) {
             idRecensione = getIdRecensioneFromListaByIndirizzoAndNickname(indirizzo,nickname);
             recensioneDAO.deleteReviewFromDatabase(String.valueOf(idRecensione));
             result = true;
@@ -112,6 +113,22 @@ public class GestioneRecensioniController {
 
     public void openProfiloPage() {
         gestioneRecensioniPage.loadingNextScreen("ProfiloAdmin.fxml");
+    }
+
+    private boolean checkInternetConnection() {
+        boolean result = false;
+        try {
+            URL url = new URL("https://aws.amazon.com/it/");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            result = true;
+        } catch (MalformedURLException e) {
+            System.out.println("Internet is not connected");
+        } catch (IOException e) {
+            System.out.println("Internet is not connected");
+        }
+
+        return result;
     }
 
 }
