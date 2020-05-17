@@ -24,8 +24,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -44,8 +42,8 @@ public class GestioneUtentiPage implements Initializable {
     
     @FXML private ComboBox comboBoxStato;
     @FXML private AnchorPane stageUtenti;
-    @FXML private ImageView gestioneRecensioniIcon,gestioneUtentiIcon,ratificaRecensioniIcon, profiloAdminIcon, ricercaIcon;
-    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText,profiloAdminText;
+    @FXML private ImageView gestioneRecensioniIcon,gestioneUtentiIcon,ratificaRecensioniIcon, ricercaIcon;
+    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText;
     @FXML private AnchorPane pnlGestioneUsers;
     @FXML private ImageView idIconClose;
     @FXML private Text idIconIconify;
@@ -112,11 +110,6 @@ public class GestioneUtentiPage implements Initializable {
     @FXML private void handleRatificaRecensioniIconClicked(MouseEvent evt){
         gestioneUtentiController.openRatificaRecensioniPage();
     }
-    
-    @FXML private void handleProfiloAdminIconClicked(MouseEvent evt){
-        gestioneUtentiController.openProfiloPage();
-    }
-    
     private void makeFadeInTransition() {
         FadeTransition fadeTrans = new FadeTransition();
         fadeTrans.setDuration(javafx.util.Duration.millis(500));

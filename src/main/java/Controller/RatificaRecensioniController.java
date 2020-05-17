@@ -122,10 +122,6 @@ public class RatificaRecensioniController {
         ratificaRecensioniPage.loadNextScreen("GestioneRecensioniApp.fxml");
     }
 
-    public void openProfiloPage() {
-        ratificaRecensioniPage.loadNextScreen("ProfiloAdmin.fxml");
-    }
-
     private boolean checkInternetConnection() {
         boolean result = false;
         try {

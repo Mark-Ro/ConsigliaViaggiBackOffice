@@ -1,7 +1,6 @@
 package Controller;
 
 import Cognito.LoginCognito;
-import Entity.ProfiloAdmin;
 import GUI.LoginPage;
 import com.amazonaws.services.cognitoidp.model.NotAuthorizedException;
 import javafx.scene.control.Alert;
@@ -15,12 +14,9 @@ import java.net.URLConnection;
 public class LoginController {
     private LoginPage loginPage;
     private LoginCognito loginCognito;
-    private ProfiloAdmin profiloAdmin;
-
     public LoginController(LoginPage loginPage) {
         this.loginPage = loginPage;
         this.loginCognito = new LoginCognito();
-        this.profiloAdmin = ProfiloAdmin.getIstance();
     }
 
     public boolean effettuaLogin(String username, String password) {
@@ -28,7 +24,6 @@ public class LoginController {
         if (checkInternetConnection()) {
             try {
                 loginCognito.doLoginAdmin(username, password);
-                profiloAdmin.setUsername(username);
                 result = true;
                 openRatificaRecensioniPage();
             } catch (InvocationTargetException invocationTargetException) {

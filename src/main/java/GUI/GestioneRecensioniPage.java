@@ -47,11 +47,10 @@ public class GestioneRecensioniPage implements Initializable {
     @FXML private ImageView gestioneRecensioniIcon;
     @FXML private ImageView gestioneUtentiIcon;
     @FXML private ImageView ratificaRecensioniIcon;
-    @FXML private ImageView profiloAdminIcon;
     @FXML private ImageView idIconCercaGestioneRecensioni;
     @FXML private AnchorPane pnlGestioneRecensioni;
     @FXML private ImageView idIconClose;
-    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText,profiloAdminText;
+    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText;
     @FXML private Text idIconIconify;
     @FXML private Button idBtnEliminaRecensione, idBtnCercaGestioneRecensioni;
     @FXML private TextField textFieldNomeStrutturaRecensioni, textFieldNicknameRecensioni, textFieldCittaRecensioni,textFieldIndirizzoRecensioni;
@@ -119,11 +118,7 @@ public class GestioneRecensioniPage implements Initializable {
     @FXML private void handleRatifcaRecensioniIconClicked(MouseEvent evt){
         gestioneRecensioniController.openRatificaRecensioniPage();
     }
-    
-    @FXML private void handleProfiloAdminIconClicked(MouseEvent evt){
-        gestioneRecensioniController.openProfiloPage();
-    }
-    
+
     private void makeFadeInTransition() {
         FadeTransition fadeTrans = new FadeTransition();
         fadeTrans.setDuration(javafx.util.Duration.millis(500));

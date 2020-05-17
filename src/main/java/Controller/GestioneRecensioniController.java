@@ -111,10 +111,6 @@ public class GestioneRecensioniController {
         gestioneRecensioniPage.loadingNextScreen("GestioneUtentiApp.fxml");
     }
 
-    public void openProfiloPage() {
-        gestioneRecensioniPage.loadingNextScreen("ProfiloAdmin.fxml");
-    }
-
     private boolean checkInternetConnection() {
         boolean result = false;
         try {

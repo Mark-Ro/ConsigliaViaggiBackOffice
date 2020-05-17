@@ -7,18 +7,14 @@ package GUI;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.EventListener;
-import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import Controller.RatificaRecensioniController;
 import Entity.Recensione;
 import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,9 +23,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -55,8 +48,6 @@ public class RatificaRecensioniPage implements Initializable {
     @FXML
     private ImageView gestioneRecensioniIcon;
     @FXML
-    private ImageView profiloAdminIcon;
-    @FXML
     private AnchorPane pnlRatificaRec;
     @FXML
     private ImageView idIconClose;
@@ -72,7 +63,7 @@ public class RatificaRecensioniPage implements Initializable {
     private TextField textFieldNomeStrutturaRatifica, textFieldNicknameRatifica;
     @FXML
     private TextArea textAreaTestoRecensioneRatifica;
-    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText,profiloAdminText;
+    @FXML private Text gestioneRecensioniText, gestioneUtentiText,ratificaRecensioniText;
 
     private ObservableList<RecensioneTableView> listaRecensioni;
     private RatificaRecensioniController ratificaRecensioniController = new RatificaRecensioniController(this);
@@ -139,11 +130,6 @@ public class RatificaRecensioniPage implements Initializable {
     @FXML
     private void handleGestioneRecensioniIconClicked(MouseEvent evt) {
         ratificaRecensioniController.openGestioneRecensioniPage();
-    }
-
-    @FXML
-    private void handleProfiloAdminIconClicked(MouseEvent evt) {
-        ratificaRecensioniController.openProfiloPage();
     }
 
     private void makeFadeInTransition() {
@@ -282,7 +268,6 @@ public class RatificaRecensioniPage implements Initializable {
     }
 
     private void updateTableViewAfterDeletes() {
-
         listaRecensioni = ratificaRecensioniController.deleteReviewFromTableViewList(tableViewRatifica.getSelectionModel().getSelectedItem().getIndirizzo(),tableViewRatifica.getSelectionModel().getSelectedItem().getNickname(),listaRecensioni);
         columnNomeStruttura.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("NomeStruttura"));
         columnNickname.setCellValueFactory(new PropertyValueFactory<RecensioneTableView, String>("Nickname"));
