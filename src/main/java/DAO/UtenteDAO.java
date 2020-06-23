@@ -75,14 +75,14 @@ public class UtenteDAO {
             String nickname, email, nome, cognome, stato, media, numeroRecensioni, nomePubblico;
             if (jsonQuery != null) {
                 while (flag == false) {
-                    nickname = (String) jsonQuery.get("Nickname" + String.valueOf(i));
-                    email = (String) jsonQuery.get("Email" + String.valueOf(i));
-                    nome = (String) jsonQuery.get("Nome" + String.valueOf(i));
-                    cognome = (String) jsonQuery.get("Cognome" + String.valueOf(i));
-                    stato = (String) jsonQuery.get("Stato" + String.valueOf(i));
-                    media = (String) jsonQuery.get("Media" + String.valueOf(i));
-                    numeroRecensioni = (String) jsonQuery.get("NumeroRecensioni" + String.valueOf(i));
-                    nomePubblico = (String) jsonQuery.get("NomePubblico" + String.valueOf(i));
+                    nickname = (String) jsonQuery.get("Nickname" + i);
+                    email = (String) jsonQuery.get("Email" + i);
+                    nome = (String) jsonQuery.get("Nome" + i);
+                    cognome = (String) jsonQuery.get("Cognome" + i);
+                    stato = (String) jsonQuery.get("Stato" + i);
+                    media = (String) jsonQuery.get("Media" + i);
+                    numeroRecensioni = (String) jsonQuery.get("NumeroRecensioni" + i);
+                    nomePubblico = (String) jsonQuery.get("NomePubblico" + i);
 
                     if (nickname != null) {
                         listaUtenti.add(new Utente(nickname, email, nome, cognome, stato, nomePubblico, Float.parseFloat(media), Integer.parseInt(numeroRecensioni)));

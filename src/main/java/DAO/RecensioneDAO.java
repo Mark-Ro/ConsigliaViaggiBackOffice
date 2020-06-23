@@ -13,7 +13,7 @@ import com.amazonaws.services.lambda.model.InvokeResult;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class RecensioneDAO {
@@ -51,7 +51,7 @@ public class RecensioneDAO {
         lmbRequest.setInvocationType(InvocationType.RequestResponse);
         AWSLambda lambda = AWSLambdaClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
         InvokeResult lmbResult = lambda.invoke(lmbRequest);
-        String resultJSON = new String(lmbResult.getPayload().array(), Charset.forName("UTF-8"));
+        String resultJSON = new String(lmbResult.getPayload().array(), StandardCharsets.UTF_8);
         System.out.println(resultJSON);
         return resultJSON;
     }
@@ -65,7 +65,7 @@ public class RecensioneDAO {
         lmbRequest.setInvocationType(InvocationType.RequestResponse);
         AWSLambda lambda = AWSLambdaClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
         InvokeResult lmbResult = lambda.invoke(lmbRequest);
-        String resultJSON = new String(lmbResult.getPayload().array(), Charset.forName("UTF-8"));
+        String resultJSON = new String(lmbResult.getPayload().array(), StandardCharsets.UTF_8);
         System.out.println(resultJSON);
         return resultJSON;
     }
@@ -98,12 +98,12 @@ public class RecensioneDAO {
             String nomeStruttura, nickname, indirizzo, nomeCitta, testoRecensione, idRecensione;
             if (jsonQuery != null) {
                 while (flag == false) {
-                    nomeStruttura = (String) jsonQuery.get("NomeStruttura" + String.valueOf(i));
-                    nickname = (String) jsonQuery.get("Nickname" + String.valueOf(i));
-                    indirizzo = (String) jsonQuery.get("Indirizzo" + String.valueOf(i));
-                    nomeCitta = (String) jsonQuery.get("NomeCitta" + String.valueOf(i));
-                    testoRecensione = (String) jsonQuery.get("TestoRecensione" + String.valueOf(i));
-                    idRecensione = (String) jsonQuery.get("IdRecensione" + String.valueOf(i));
+                    nomeStruttura = (String) jsonQuery.get("NomeStruttura" + i);
+                    nickname = (String) jsonQuery.get("Nickname" + i);
+                    indirizzo = (String) jsonQuery.get("Indirizzo" + i);
+                    nomeCitta = (String) jsonQuery.get("NomeCitta" + i);
+                    testoRecensione = (String) jsonQuery.get("TestoRecensione" + i);
+                    idRecensione = (String) jsonQuery.get("IdRecensione" + i);
                     if (nickname != null) {
                         listaRecensioni.add(new Recensione(Integer.parseInt(idRecensione),nomeStruttura,nickname,indirizzo,nomeCitta,testoRecensione));
                         i++;
@@ -123,7 +123,7 @@ public class RecensioneDAO {
         lmbRequest.setInvocationType(InvocationType.RequestResponse);
         AWSLambda lambda = AWSLambdaClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
         InvokeResult lmbResult = lambda.invoke(lmbRequest);
-        String resultJSON = new String(lmbResult.getPayload().array(), Charset.forName("UTF-8"));
+        String resultJSON = new String(lmbResult.getPayload().array(), StandardCharsets.UTF_8);
         System.out.println(resultJSON);
     }
 
@@ -135,7 +135,7 @@ public class RecensioneDAO {
         lmbRequest.setInvocationType(InvocationType.RequestResponse);
         AWSLambda lambda = AWSLambdaClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
         InvokeResult lmbResult = lambda.invoke(lmbRequest);
-        String resultJSON = new String(lmbResult.getPayload().array(), Charset.forName("UTF-8"));
+        String resultJSON = new String(lmbResult.getPayload().array(), StandardCharsets.UTF_8);
         System.out.println(resultJSON);
     }
 

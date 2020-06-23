@@ -5,7 +5,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthRequest;
-import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthResult;
 import com.amazonaws.services.cognitoidp.model.AuthFlowType;
 import com.amazonaws.services.cognitoidp.model.NotAuthorizedException;
 
@@ -20,7 +19,7 @@ public class LoginCognito {
         String amazonAWSSecretKey="X+u6+Sh3Py4IOHoBrC6IslIxw9ZPDlQpy+XXez7R";
         String clientId="5jhst4j81qn2tkt6u2ojfljle";
 
-        HashMap authParameters = new HashMap<>();
+        HashMap<String,String> authParameters = new HashMap<>();
         authParameters.put("USERNAME",username);
         authParameters.put("PASSWORD",password);
         AdminInitiateAuthRequest req = new AdminInitiateAuthRequest().withClientId(clientId).withUserPoolId(userPoolId).withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH).withAuthParameters(authParameters);
