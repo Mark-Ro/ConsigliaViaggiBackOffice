@@ -3,6 +3,7 @@ package Controller;
 import Cognito.GestioneUtentiCognito;
 import DAO.UtenteDAO;
 import Entity.Utente;
+import Exceptions.UserNotFoundException;
 import GUI.GestioneUtentiPage;
 import GUI.UtenteTableView;
 import javafx.collections.FXCollections;
@@ -115,7 +116,7 @@ public class GestioneUtentiController {
         String result;
         if (checkInternetConnection()) {
             if (isEmailUnique(nickname,email)) {
-                if (wasUserBanned(nickname)) {
+                if (wasUserBanned(nickname,listaUtenti)) {
                     utenteDAO.saveModifiesIntoDatabase(nome, cognome, nomePubblico, email, stato, nickname);
                     if (stato.equals("unbanned")) {
                         gestioneUtentiCognito.unbanUtenteCognito(nickname);
@@ -143,20 +144,19 @@ public class GestioneUtentiController {
         return result;
     }
 
-    private boolean wasUserBanned(String nickname) {
-        boolean result = false;
-        int trovatoUtente = 0;
-        Iterator<Utente> iterator = listaUtenti.iterator();
-        Utente utente;
-        while (iterator.hasNext() && trovatoUtente == 0) {
-            utente = iterator.next();
-            if (utente.getNickname().equals(nickname)) {
-                trovatoUtente = 1;
-                if (utente.getStato().equals("banned"))
-                    result = true;
-            }
-        }
-        return result;
+    public boolean wasUserBanned(String nickname, ArrayList<Utente> listaUtenti) {
+
+        if (nickname == null)
+            throw new IllegalArgumentException("Nickname must be not null!");
+
+        if (listaUtenti == null)
+            throw new IllegalArgumentException("List must be not null!");
+
+        for (Utente utente : listaUtenti)
+            if (utente.getNickname().equals(nickname))
+                return utente.getStato().equals("banned");
+
+        throw new UserNotFoundException("User doesn't exist!");
     }
 
     public boolean deleteUser(String nickname) {
