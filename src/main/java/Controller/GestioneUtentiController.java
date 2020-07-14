@@ -24,6 +24,8 @@ public class GestioneUtentiController {
 
     private ArrayList<Utente> listaUtenti;
 
+    public GestioneUtentiController() {}
+
     public GestioneUtentiController(GestioneUtentiPage gestioneUtentiPage) {
         this.gestioneUtentiPage = gestioneUtentiPage;
         this.utenteDAO = new UtenteDAO();
