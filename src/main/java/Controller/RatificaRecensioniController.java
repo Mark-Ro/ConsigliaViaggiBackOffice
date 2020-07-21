@@ -38,15 +38,11 @@ public class RatificaRecensioniController {
     }
 
     public ObservableList<RecensioneTableView> getListaRecensioniTable() {
-        Recensione recensione;
         ObservableList<RecensioneTableView> listaRecensioniTabella = null;
         if (listaRecensioni!=null) {
             listaRecensioniTabella = FXCollections.observableArrayList();
-            Iterator<Recensione> iterator = listaRecensioni.iterator();
-            while (iterator.hasNext()) {
-                recensione = iterator.next();
-                listaRecensioniTabella.add(new RecensioneTableView(recensione.getNomeStruttura(),recensione.getNickname(),recensione.getIndirizzo(),recensione.getNomeCitta()));
-            }
+            for (Recensione recensione :listaRecensioni)
+                listaRecensioniTabella.add(new RecensioneTableView(recensione.getNomeStruttura(), recensione.getNickname(), recensione.getIndirizzo(), recensione.getNomeCitta()));
         }
         return listaRecensioniTabella;
     }
